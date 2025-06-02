@@ -1,0 +1,148 @@
+{% extends "admin/base_site.html" %}
+{% load static humanize template_extras %}
+
+{% block title %}{{ page_title|default:"Customer Details" }}{% endblock %} {# Added default for safety #}
+
+{% block content %}
+<div id="content-main">
+    <h1>{{ page_title|default:"Customer Details" }}</h1>
+
+    {# Basic Customer Info #}
+    <fieldset class="module aligned">
+        <h2>Customer Information</h2>
+        <div class="form-row field-first_name"> <div><label>First Name:</label><p>{{ customer.first_name|default:"N/A" }}</p></div> </div>
+        <div class="form-row field-last_name"> <div><label>Last Name:</label><p>{{ customer.last_name|default:"N/A" }}</p></div> </div>
+        <div class="form-row field-email"> <div><label>Email:</label><p>{{ customer.email|default:"N/A" }}</p></div> </div>
+        <div class="form-row field-telephone_number"> <div><label>Phone:</label><p>{{ customer.telephone_number|default:"---" }}</p></div> </div>
+        <div class="form-row field-address_line1"> <div><label>Address:</label><p>{{ customer.address_line1|default:"" }}</p></div> </div>
+        <div class="form-row field-address_line2"> <div><label></label><p>{{ customer.address_line2|default:"" }}</p></div> </div>
+        <div class="form-row field-city_state_zip"> <div><label></label><p>{{ customer.city|default:"" }}{% if customer.city and customer.state %}, {% endif %}{{ customer.state|default:"" }} {{ customer.zip_code|default:"" }}</p></div> </div>
+    </fieldset>
+
+    {# Overall Financial Summary #}
+    <fieldset class="module">
+        <h2>Overall Financial Summary</h2>
+         <div class="form-row"><div><label>Total Budget (All Projects):</label><p>${{ grand_total_budget|floatformat:2|intcomma }}</p></div></div>
+         <div class="form-row"><div><label>Total Actual Cost (All Projects):</label><p>${{ grand_total_actual|floatformat:2|intcomma }}</p></div></div>
+         <div class="form-row"><div><label>Calculated Profit/Overhead ({{ profit_margin_rate|floatformat:0 }}% of Actual):</label><p>${{ grand_total_profit|floatformat:2|intcomma }}</p></div></div>
+         <div class="form-row"><div><label>Overall Variance (Budget - Actual):</label><p>${{ grand_total_variance|floatformat:2|intcomma }}</p></div></div>
+    </fieldset>
+
+    {# Associated Projects Loop #}
+    {% for data in projects_data %}
+    <div class="module" id="project-module-{{ data.project.pk }}">
+        <h2>Project: <a href="{% url 'admin:LehmanCustomConstruction_project_change' data.project.pk %}">{{ data.project.project_name }}</a></h2>
+        <div class="results">
+            <table id="project-results-table-{{ data.project.pk }}" style="width: 100%;">
+                <thead>
+                     <tr><th >Status</th><th >Budget</th><th colspan="3" style="text-align: center; border-bottom: 1px solid #ccc;">Actual Costs by Draw</th><th >Total Actual</th><th >Variance</th></tr>
+                     <tr><th></th><th></th><th style="text-align: center; width: 15%;">Draw 1</th><th style="text-align: center; width: 15%;">Draw 2</th><th style="text-align: center; width: 15%;">Draw 3</th><th></th><th></th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ data.project.get_status_display }}</td>
+                        <td style="text-align: right;">${{ data.budget|floatformat:2|intcomma }}</td>
+                        <td style="text-align: right;">${{ data.draw1_cost|floatformat:2|intcomma }}</td>
+                        <td style="text-align: right;">${{ data.draw2_cost|floatformat:2|intcomma }}</td>
+                        <td style="text-align: right;">${{ data.draw3_cost|floatformat:2|intcomma }}</td>
+                        <td style="text-align: right; font-weight: bold;"><a href="{% url 'LehmanCustomConstruction:project_expenses' data.project.pk %}">${{ data.actual_cost|floatformat:2|intcomma }}</a></td>
+                        <td style="text-align: right;">${{ data.variance|floatformat:2|intcomma }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% if data.monthly_toilet_costs %}
+        <div class="module" style="margin-top: 1em;">
+             <h3 style="margin-bottom: 0.5em;">Monthly Breakdown: {{ portable_toilet_category_name }}</h3>
+             <div class="results"> <table style="width: auto;"> <thead> <tr> <th>Month (YYYY-MM)</th> <th>Amount</th> </tr> </thead> <tbody> {% for month, total in data.monthly_toilet_costs %} <tr class="{% cycle 'row1' 'row2' %}"> <td>{{ month }}</td> <td style="text-align: right;">${{ total|floatformat:2|intcomma }}</td> </tr> {% endfor %} </tbody> </table> </div>
+        </div>
+        {% endif %}
+        <div class="submit-row" style="margin-top: 1em;">
+            <a href="{% url 'admin:LehmanCustomConstruction_project_change' data.project.pk %}" class="button">Edit Project</a>
+            <a href="{% url 'LehmanCustomConstruction:project_expenses' data.project.pk %}" class="button">View All Project Expenses</a>
+            {# Ensure Expense model is registered with admin for this URL to work #}
+            <a href="{% url 'admin:LehmanCustomConstruction_expense_add' %}?project={{ data.project.pk }}" class="button">Add Expense for this Project</a>
+        </div>
+    </div>
+    {% empty %}
+         <p>No projects found for this customer.</p>
+    {% endfor %}
+
+
+    {# Customer Documents Section #}
+    <div class="module" id="document-module">
+        <h2>Customer Documents</h2>
+        {# Check if the main dictionary has *any* keys before looping choices #}
+        {% if documents_by_type %}
+            {# Loop through the CHOICES to maintain order and show all types #}
+            {% for choice_key, choice_display in document_type_choices %}
+                {# Use the custom 'get_item' filter to look up the list using the display name #}
+                {% with documents_for_type=documents_by_type|get_item:choice_display %}
+                    {# Only show the section if there are documents for this specific type #}
+                    {% if documents_for_type %}
+                    <details open style="margin-bottom: 1em; border: 1px solid #ccc; padding: 0.5em; border-radius: 4px;"> {# Added 'open' attribute #}
+                        <summary style="cursor: pointer; font-weight: bold;">
+                            {{ choice_display }} ({{ documents_for_type|length }}) {# Use length filter #}
+                        </summary>
+                        <div class="results" style="margin-top: 0.5em;">
+                            <table style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Description/Filename</th>
+                                        <th>Associated Project</th>
+                                        <th>Uploaded Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for doc in documents_for_type %}
+                                    <tr class="{% cycle 'row1' 'row2' %}">
+                                        <td>
+                                            {% if doc.file %}
+                                                {# Use description if available, otherwise filename #}
+                                                <a href="{{ doc.file.url }}" target="_blank">{{ doc.description|default:doc.get_filename }}</a>
+                                            {% else %}
+                                                {{ doc.description|default:"-" }} (No file)
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ doc.project.project_name|default:"N/A (Customer Level)" }}</td>
+                                        <td>{{ doc.uploaded_at|date:"Y-m-d P" }}</td> {# Added time P for clarity #}
+                                        <td>
+                                            {# Ensure CustomerDocument model is registered with admin #}
+                                            <a href="{% url 'admin:LehmanCustomConstruction_customerdocument_change' doc.pk %}">Edit</a>
+                                            {# Add delete link if needed #}
+                                            {# | <a href="{% url 'admin:LehmanCustomConstruction_customerdocument_delete' doc.pk %}" class="deletelink" onclick="return confirm('Are you sure?');">Delete</a> #}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
+                    {% endif %} {# End if documents_for_type #}
+                {% endwith %} {# End with documents_for_type #}
+            {% endfor %} {# End for choice_key... #}
+        {% else %}
+            <p>No documents found for this customer or their projects.</p>
+        {% endif %} {# End if documents_by_type #}
+
+        {# Link to add a new document (pre-fills customer) #}
+         <div class="submit-row" style="margin-top: 1em;">
+             {# Ensure CustomerDocument model is registered with admin #}
+             <a href="{% url 'admin:LehmanCustomConstruction_customerdocument_add' %}?customer={{ customer.pk }}" class="button">Add New Document for {{customer.first_name|default:'this customer'}}</a>
+         </div>
+    </div>
+    {# END Documents Section #}
+
+
+    {# Link back to customer list and change page #}
+    <div class="submit-row">
+         <a href="{% url 'admin:LehmanCustomConstruction_customer_changelist' %}" class="button">Back to Customer List</a>
+         <a href="{% url 'admin:LehmanCustomConstruction_customer_change' customer.pk %}" class="button default">Edit Customer</a>
+    </div>
+
+</div>
+
+{# Removed the commented-out filter code - it belongs in the python file #}
+
+{% endblock %}

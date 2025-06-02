@@ -1,0 +1,108 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{# Use the title variable passed from the view #}
+{% block title %}{{ title|default:"Customer Dashboard" }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{# Use title variable for the main heading #}
+{% block content_title %}
+    <h1>{{ title|default:"Customer Management Dashboard" }}</h1>
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <div class="module">
+        <p>Quick links for managing customers, projects, and related items based on your role.</p>
+    </div>
+
+    {# === Customers & Core Project Info === #}
+    {# Show this section if user can view customers OR projects OR project images #}
+    {% if perms.LehmanCustomConstruction.view_customer or perms.LehmanCustomConstruction.view_project or perms.LehmanCustomConstruction.view_projectimage %}
+        <div class="module" id="customer-links-module">
+            <h2>Customers &amp; Core Project Info</h2>
+            <ul class="objectlist" style="margin-left: 0; padding-left: 0;">
+                {% if perms.LehmanCustomConstruction.view_customer %}
+                 <li style="margin-bottom: 5px;"><a href="{% url 'admin:LehmanCustomConstruction_customer_changelist' %}" class="viewsitelink">View/Manage Customers</a></li>
+                {% endif %}
+                {% if perms.LehmanCustomConstruction.add_customer %}
+                 <li style="margin-bottom: 15px;"><a href="{% url 'admin:LehmanCustomConstruction_customer_add' %}" class="addlink">Add New Customer</a></li>
+                {% endif %}
+
+                {% if perms.LehmanCustomConstruction.view_project %}
+                 <li style="margin-bottom: 5px;"><a href="{% url 'admin:LehmanCustomConstruction_project_changelist' %}" class="viewsitelink">View/Manage Projects (Internal)</a></li>
+                {% endif %}
+                {% if perms.LehmanCustomConstruction.add_project %}
+                 <li style="margin-bottom: 15px;"><a href="{% url 'admin:LehmanCustomConstruction_project_add' %}" class="addlink">Add New Project</a></li>
+                {% endif %}
+
+                {% if perms.LehmanCustomConstruction.view_projectimage %}
+                 <li style="margin-bottom: 5px;"><a href="{% url 'admin:LehmanCustomConstruction_projectimage_changelist' %}" class="viewsitelink">View/Manage Internal Project Images</a></li>
+                {% endif %}
+                 {% if perms.LehmanCustomConstruction.add_projectimage %}
+                 <li><a href="{% url 'admin:LehmanCustomConstruction_projectimage_add' %}" class="addlink">Add Internal Project Image</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {# === Finances & Documents === #}
+    {# Show section if user has any relevant permission #}
+    {% if perms.LehmanCustomConstruction.view_expense or perms.LehmanCustomConstruction.view_costitem or perms.LehmanCustomConstruction.view_customerdocument or perms.LehmanCustomConstruction.view_expensecategory or perms.LehmanCustomConstruction.view_vendor %}
+        <div class="module" id="finance-links-module">
+            <h2>Finances &amp; Documents</h2>
+             <ul class="objectlist" style="margin-left: 0; padding-left: 0;">
+                 {% if perms.LehmanCustomConstruction.view_expense %}
+                 <li style="margin-bottom: 5px;"><a href="{% url 'admin:LehmanCustomConstruction_expense_changelist' %}" class="viewsitelink">View/Manage All Expenses</a></li>
+                 {% endif %}
+                 {% if perms.LehmanCustomConstruction.add_expense %}
+                 <li style="margin-bottom: 15px;"><a href="{% url 'admin:LehmanCustomConstruction_expense_add' %}" class="addlink">Add New Expense</a></li>
+                 {% endif %}
+
+                 {% if perms.LehmanCustomConstruction.view_costitem %}
+                 <li style="margin-bottom: 5px;"><a href="{% url 'admin:LehmanCustomConstruction_costitem_changelist' %}" class="viewsitelink">View/Manage Cost Items (Budget Lines)</a></li>
+                 {% endif %}
+                 {% if perms.LehmanCustomConstruction.add_costitem %}
+                 <li style="margin-bottom: 15px;"><a href="{% url 'admin:LehmanCustomConstruction_costitem_add' %}" class="addlink">Add New Cost Item</a></li>
+                 {% endif %}
+
+                {% if perms.LehmanCustomConstruction.view_customerdocument %}
+                <li style="margin-bottom: 5px;"><a href="{% url 'admin:LehmanCustomConstruction_customerdocument_changelist' %}" class="viewsitelink">View/Manage All Customer Documents</a></li>
+                {% endif %}
+                 {% if perms.LehmanCustomConstruction.add_customerdocument %}
+                 <li style="margin-bottom: 15px;"><a href="{% url 'admin:LehmanCustomConstruction_customerdocument_add' %}" class="addlink">Add New Customer Document</a></li>
+                 {% endif %}
+
+                 {% if perms.LehmanCustomConstruction.change_expensecategory %} {# Use 'change' perm for manage links #}
+                  <li style="margin-bottom: 5px;"><a href="{% url 'admin:LehmanCustomConstruction_expensecategory_changelist' %}" class="changelink">Manage Expense Categories</a></li>
+                 {% endif %}
+                 {% if perms.LehmanCustomConstruction.change_vendor %} {# Use 'change' perm for manage links #}
+                  <li><a href="{% url 'admin:LehmanCustomConstruction_vendor_changelist' %}" class="changelink">Manage Vendors</a></li>
+                 {% endif %}
+             </ul>
+        </div>
+    {% endif %}
+
+    {# === Marketing Content Example === #}
+    {% if perms.LehmanCustomConstruction.change_blogpost or perms.LehmanCustomConstruction.change_portfolioproject %}
+         <div class="module" id="marketing-links-module">
+            <h2>Marketing Content</h2>
+             <ul class="objectlist" style="margin-left: 0; padding-left: 0;">
+                {% if perms.LehmanCustomConstruction.change_blogpost %} {# Use 'change' or 'view' #}
+                 <li style="margin-bottom: 5px;"><a href="{% url 'admin:LehmanCustomConstruction_blogpost_changelist' %}" class="changelink">Manage Blog Posts</a></li>
+                {% endif %}
+                 {% if perms.LehmanCustomConstruction.change_portfolioproject %} {# Use 'change' or 'view' #}
+                 <li style="margin-bottom: 5px;"><a href="{% url 'admin:LehmanCustomConstruction_portfolioproject_changelist' %}" class="changelink">Manage Portfolio Projects</a></li>
+                 {% endif %}
+                 {# Add Blog Category links etc. #}
+                 {% if perms.LehmanCustomConstruction.change_blogcategory %}
+                   <li style="margin-bottom: 5px;"><a href="{% url 'admin:LehmanCustomConstruction_blogcategory_changelist' %}" class="changelink">Manage Blog Categories</a></li>
+                 {% endif %}
+                 {% if perms.LehmanCustomConstruction.change_portfoliocategory %}
+                   <li><a href="{% url 'admin:LehmanCustomConstruction_portfoliocategory_changelist' %}" class="changelink">Manage Portfolio Categories</a></li>
+                 {% endif %}
+             </ul>
+         </div>
+    {% endif %}
+
+</div>
+{% endblock %}

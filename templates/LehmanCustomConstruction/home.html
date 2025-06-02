@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% load math_filters %}
+
+{% block title %}Home - Lehman Custom Construction{% endblock %}
+
+{# Video Hero Section - Styled using classes from your input.css #}
+{% block hero_section %}
+<section id="hero-video" class="relative h-screen flex items-center justify-center overflow-hidden text-center">
+    <div class="absolute top-0 left-0 w-full h-full z-0">
+        <video class="min-w-full min-h-full w-auto h-auto object-cover"
+               poster="{% static 'images/hero_poster.jpg' %}" {# REMEMBER: Create static/images/hero_poster.jpg #}
+               autoplay loop muted playsinline>
+            <source src="{% static 'images/141-hero.mp4' %}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="absolute inset-0 bg-black opacity-40 z-1"></div> {# You can adjust opacity-40 if needed #}
+    </div>
+
+    <div class="relative z-10 p-6 text-brand-white"> {# Using text-brand-white from your theme #}
+        <h1 class="font-heading text-4xl md:text-6xl lg:text-7xl font-semibold mb-4 leading-tight animate-fade-in-down">
+            Building Distinction, Crafting Legacies
+        </h1>
+        <p class="font-body text-lg md:text-xl max-w-2xl mx-auto mb-8 animate-fade-in-up animation-delay-300">
+            Lehman Custom Construction creates timeless homes, meticulously designed and built to reflect your unique vision.
+        </p>
+        <a href="{% url 'LehmanCustomConstruction:contact_us' %}"
+           class="cta-button-primary animate-fade-in-up animation-delay-600"> {# Using .cta-button-primary from your input.css #}
+            Begin Your Journey
+        </a>
+    </div>
+</section>
+{% endblock hero_section %}
+
+{# YOUR ORIGINAL HOMEPAGE SECTIONS - Using classes defined in your input.css #}
+{% block content %}
+
+{# About Us Snippet #}
+<section class="py-16 lg:py-24 bg-brand-white" data-aos="fade-up" data-aos-duration="700">
+    <div class="container mx-auto px-6 lg:px-8 max-w-4xl text-center">
+        <h2 class="section-heading">
+            A Foundation of Excellence
+        </h2>
+        <p class="section-subheading mb-8">
+            At Lehman Custom Construction, we believe a home is more than just a structure; it's the backdrop for a lifetime of memories. With decades of experience in luxury home building, our commitment to craftsmanship, transparency, and client satisfaction is unwavering.
+        </p>
+        <a href="{% url 'LehmanCustomConstruction:about_us' %}" class="link-styled group">
+            Learn More About Us
+            <span class="arrow-accent">&rarr;</span>
+        </a>
+    </div>
+</section>
+
+{# Our Commitment (formerly Services Overview) #}
+<section class="py-16 lg:py-24 bg-brand-gray-light" data-aos="fade-up" data-aos-delay="100" data-aos-duration="700">
+    <div class="container mx-auto px-6 lg:px-8 max-w-5xl">
+        <h2 class="section-heading text-center mb-12">
+            Our Commitment to You
+        </h2>
+        <div class="grid md:grid-cols-3 gap-10">
+            <div class="service-card" data-aos="fade-up" data-aos-delay="200" data-aos-duration="700">
+                <div class="text-brand-gold text-4xl mb-4"> {# text-brand-gold from your theme #}
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 mx-auto"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.472-2.472a3.75 3.75 0 00-5.304-5.304l-2.472 2.472M11.42 15.17L5.88 21m5.54-5.83l-2.472-2.472a3.75 3.75 0 00-5.304-5.304L1.421 10.033a2.25 2.25 0 000 3.182l2.472 2.472a3.75 3.75 0 005.304 5.304L11.42 15.17z" /></svg>
+                </div>
+                <h3 class="card-heading">Unwavering Quality</h3>
+                <p class="card-text">Utilizing the finest materials and meticulous attention to detail in every phase of construction.</p>
+            </div>
+            <div class="service-card" data-aos="fade-up" data-aos-delay="300" data-aos-duration="700">
+                <div class="text-brand-gold text-4xl mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 mx-auto"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" /></svg>
+                </div>
+                <h3 class="card-heading">Collaborative Design</h3>
+                <p class="card-text">Working closely with you and renowned architects to bring your unique vision to life.</p>
+            </div>
+            <div class="service-card" data-aos="fade-up" data-aos-delay="400" data-aos-duration="700">
+                <div class="text-brand-gold text-4xl mb-4">
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 mx-auto"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" /></svg>
+                </div>
+                <h3 class="card-heading">Lasting Value</h3>
+                <p class="card-text">Building homes that are not only beautiful but are sound investments for generations.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if latest_portfolio_projects %}
+<section class="py-16 lg:py-24 bg-brand-white" data-aos="fade-up" data-aos-duration="700">
+    <div class="container mx-auto px-6 lg:px-8">
+        <h2 class="section-heading text-center mb-12">Featured Projects</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for project in latest_portfolio_projects %}
+            <a href="{{ project.get_absolute_url }}" class="group block bg-brand-gray-light rounded-lg shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-xl" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1|mult:100 }}" data-aos-duration="700">
+                {% if project.featured_image %}
+                {# Consider aspect ratio for images - Tailwind v4 might require a plugin or custom CSS for aspect-w-* utilities #}
+                {# For simplicity, you might use a fixed height or let the image define its height for now #}
+                <div class="h-64 bg-brand-gray-medium"> {# Example: fixed height, bg-brand-gray-medium from your theme #}
+                    <img src="{{ project.featured_image.url }}" alt="{{ project.title }}" class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300">
+                </div>
+                {% else %}
+                <div class="h-64 bg-brand-gray-medium flex items-center justify-center">
+                    <span class="text-brand-charcoal opacity-50">No Image</span>
+                </div>
+                {% endif %}
+                <div class="p-6">
+                    <h3 class="font-heading text-xl font-medium text-brand-charcoal mb-2 group-hover:text-brand-gold transition-colors duration-300">{{ project.title }}</h3>
+                    <p class="font-body text-sm text-gray-600 mb-3">{{ project.description|striptags|truncatewords:20 }}</p>
+                    <span class="font-body text-xs text-brand-gold uppercase tracking-wider font-semibold">View Project &rarr;</span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-12" data-aos="fade-up" data-aos-delay="200" data-aos-duration="700">
+            <a href="{% url 'LehmanCustomConstruction:portfolio_list' %}" class="cta-button-secondary">
+                View All Projects
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{# Call to Action (CTA) - With Gradient and AOS #}
+<section class="py-16 lg:py-24 text-brand-white cta-gradient-background" data-aos="fade-up" data-aos-duration="700"> {# .cta-gradient-background is defined in your input.css #}
+    <div class="container mx-auto px-6 lg:px-8 max-w-4xl text-center">
+        <div class="w-24 h-px bg-brand-white opacity-30 mx-auto mb-8" data-aos="zoom-in" data-aos-delay="200" data-aos-duration="500"></div>
+        <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-medium mb-6" data-aos="fade-down" data-aos-delay="300" data-aos-duration="700">
+            Your Vision. Our Craftsmanship.<br class="hidden md:block"> A Timeless Legacy.
+        </h2>
+        <p class="font-body text-lg opacity-90 mb-10 leading-relaxed max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="400" data-aos-duration="700">
+            At Lehman Custom Construction, we believe your home should be as unique as your story. Partner with us to transform your aspirations into an architectural masterpiece, built with an unwavering commitment to quality and a truly personal approach. Schedule your private consultation to begin the journey.
+        </p>
+        <div data-aos="fade-up" data-aos-delay="500" data-aos-duration="700">
+            <a href="{% url 'LehmanCustomConstruction:contact_us' %}"
+               class="cta-button-primary-inverted text-lg px-12 py-4">
+                Begin Your Consultation
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

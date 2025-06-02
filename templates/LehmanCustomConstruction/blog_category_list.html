@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{{ category.name|default:"Category" }} - Blog - Lehman Custom Construction{% endblock title %}
+
+{% block meta_description %}
+    {# The meta_description variable is passed from the view #}
+    {{ meta_description|default:"Explore blog posts by category from Lehman Custom Construction." }}
+{% endblock meta_description %}
+
+{% block hero_section %}
+{# --- Hero Section for Blog Category List --- #}
+{# This hero section is the first content, so it will appear under the fixed navbar. #}
+{# The inner div needs top padding to push text content below the navbar's initial height. #}
+{# Adjust pt-XX based on your actual navbar's taller height. #}
+<section aria-labelledby="category-hero-title-{{ category.slug|default:'default' }}" class="relative bg-gradient-to-br from-gray-50 via-stone-100 to-blue-50 text-gray-700 border-b border-gray-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20 md:py-28 lg:py-32 pt-32 md:pt-36 lg:pt-44"> {# CRITICAL: Adjust top padding for navbar #}
+        <p class="text-sm font-semibold uppercase tracking-wider text-brand-gold mb-2" style="font-family: var(--font-body);">
+            Blog Category
+        </p>
+        <h1 id="category-hero-title-{{ category.slug|default:'default' }}" class="text-4xl sm:text-5xl md:text-6xl font-bold text-brand-charcoal mb-5 leading-tight" style="font-family: var(--font-heading);">
+            {{ category.name|default:"Blog Category" }}
+        </h1>
+        {% if category.description %}
+        <p class="mt-4 max-w-3xl mx-auto text-lg sm:text-xl text-gray-600" style="font-family: var(--font-body);">
+           {{ category.description|safe|linebreaksbr }}
+        </p>
+        {% else %}
+        <p class="mt-4 max-w-3xl mx-auto text-lg sm:text-xl text-gray-600" style="font-family: var(--font-body);">
+           Exploring articles and insights related to "{{ category.name|default:'this category' }}".
+        </p>
+        {% endif %}
+    </div>
+</section>
+{% endblock hero_section %}
+
+{% block breadcrumbs_block %}
+    {# This block is defined in base.html, appears after hero_section #}
+    {% if breadcrumbs %}
+        {% include 'partials/_breadcrumbs.html' %}
+    {% endif %}
+{% endblock breadcrumbs_block %}
+
+{% block content %}
+{# Main Content Area for Blog Posts in this Category. Breadcrumbs are now in their own block above. #}
+<div class="bg-white py-12 sm:py-16 lg:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {% if blog_posts %}
+            <div class="mb-8 sm:mb-10 text-sm text-gray-500" style="font-family: var(--font-body);">
+                Showing {{ blog_posts.count }} post{{ blog_posts.count|pluralize }} in category: <span class="font-semibold text-brand-gold">{{ category.name|default:"N/A" }}</span>
+            </div>
+            <div class="grid gap-8 sm:gap-10 md:gap-12 lg:gap-14 md:grid-cols-2 lg:grid-cols-3">
+                {% for post in blog_posts %}
+                    {# Ensure _blog_post_card.html is styled for a light theme and uses brand colors/fonts #}
+                    {% include 'partials/_blog_post_card.html' with post=post light_theme=True %}
+                {% endfor %}
+            </div>
+
+            {# --- Pagination (Styled for light theme) --- #}
+            {% if is_paginated %}
+            <nav class="mt-12 sm:mt-16 pt-8 sm:pt-10 border-t border-gray-200 flex items-center justify-between" aria-label="Pagination">
+                <div class="hidden sm:block">
+                    <p class="text-sm text-gray-600" style="font-family: var(--font-body);">
+                        Showing <span class="font-semibold text-brand-charcoal">{{ page_obj.start_index }}</span>
+                        to <span class="font-semibold text-brand-charcoal">{{ page_obj.end_index }}</span>
+                        of <span class="font-semibold text-brand-charcoal">{{ page_obj.paginator.count }}</span> results
+                    </p>
+                </div>
+                <div class="flex-1 flex justify-between sm:justify-end space-x-3">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                           class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-colors duration-150 ease-in-out" style="font-family: var(--font-body);">
+                            Previous
+                        </a>
+                    {% endif %}
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                           class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-colors duration-150 ease-in-out" style="font-family: var(--font-body);">
+                            Next
+                        </a>
+                    {% endif %}
+                </div>
+            </nav>
+            {% endif %}
+            {# --- End Pagination --- #}
+
+        {% else %}
+            <div class="text-center py-16 sm:py-20">
+                 <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.122zM12 15.75h.007v.008H12v-.008z" />
+                </svg>
+                <h3 class="mt-4 text-xl font-semibold text-brand-charcoal" style="font-family: var(--font-heading);">No Posts Yet</h3>
+                <p class="mt-2 text-md text-gray-600" style="font-family: var(--font-body);">
+                    There are currently no blog posts published in the "<strong>{{ category.name|default:"this" }}</strong>" category.
+                </p>
+                <div class="mt-8">
+                    <a href="{% url 'LehmanCustomConstruction:blog_list' %}"
+                       class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-brand-gold hover:bg-brand-gold-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-gold transition-colors duration-150 ease-in-out"
+                       style="font-family: var(--font-body);">
+                        &larr; Explore All Blog Posts
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="mt-12 sm:mt-16 pt-8 text-center {% if blog_posts and is_paginated or not blog_posts %}border-t border-gray-200{% endif %}">
+            <a href="{% url 'LehmanCustomConstruction:blog_list' %}"
+               class="inline-flex items-center text-base font-medium rounded-md text-brand-gold hover:text-brand-gold-light transition-colors duration-150 ease-in-out group"
+               style="font-family: var(--font-body);">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 transform transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                View All Blog Categories & Posts
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_head %}
+    {{ block.super }}
+    {# The meta_description variable is passed from the view and has default logic there. #}
+    {# Providing a simpler default here just in case meta_description is empty from view. #}
+    <meta name="description" content="{{ meta_description|default:'Explore blog posts by category from Lehman Custom Construction.' }}">
+{% endblock extra_head %}

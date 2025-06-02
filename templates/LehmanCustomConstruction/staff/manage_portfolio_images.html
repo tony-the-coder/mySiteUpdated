@@ -1,0 +1,196 @@
+{% extends "staff_portal/staff_base.html" %}
+{% load static i18n %}
+
+{% block title %}Manage Images for: {{ project.title }} - Staff Portal{% endblock %}
+
+{% block extra_head %}
+    {{ block.super }}
+    <style>
+        .image-management-card {
+            background-color: #fff; /* bg-white */
+            padding: 1.5rem; /* p-6 */
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* shadow-lg */
+            border: 1px solid #e5e7eb; /* border border-gray-200 */
+            margin-bottom: 1.5rem; /* mb-6 */
+            display: flex; /* Added for flex layout */
+            flex-direction: column; /* Stack items vertically */
+        }
+        .image-preview-manage {
+            width: 100%;
+            height: 12rem; /* h-48 */
+            object-fit: cover;
+            border-radius: 0.375rem; /* rounded-md */
+            margin-bottom: 0.75rem; /* mb-3 */
+            border: 1px solid #d1d5db; /* border border-gray-300 */
+        }
+        .form-label-xs {
+            display: block;
+            margin-bottom: 0.25rem; /* mb-1 */
+            font-size: 0.75rem; /* text-xs */
+            line-height: 1rem;
+            font-weight: 500; /* font-medium */
+            color: #4b5563; /* text-gray-600 */
+        }
+        .featured-image-label {
+            font-size: 0.75rem; /* text-xs */
+            font-weight: 500; /* font-medium */
+            color: #166534; /* text-green-700 */
+            margin-left: 0.25rem; /* ml-1 */
+        }
+        .current-featured-badge {
+            background-color: #dcfce7; /* bg-green-100 */
+            color: #16a34a; /* text-green-600 */
+            padding: 0.25rem 0.5rem; /* px-2 py-1 */
+            border-radius: 9999px; /* rounded-full */
+            font-size: 0.75rem; /* text-xs */
+            font-weight: 600; /* font-semibold */
+            display: inline-block;
+            margin-top: 0.5rem; /* mt-2 */
+        }
+    </style>
+{% endblock extra_head %}
+
+{% block staff_content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <div>
+            <h1 class="text-2xl md:text-3xl font-semibold text-gray-800 leading-tight">
+                {% trans "Manage Gallery Images & Featured Image" %}
+            </h1>
+            <p class="text-lg text-gray-600">
+                {% trans "Project" %}: <span class="font-semibold text-brand-charcoal">{{ project.title }}</span>
+            </p>
+        </div>
+        <div class="flex space-x-3 mt-4 sm:mt-0">
+            <a href="{% url 'LehmanCustomConstruction:staff_portfolio_edit' pk=project.pk %}"
+               class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 whitespace-nowrap">
+                &larr; {% trans "Back to Edit Project Details" %}
+            </a>
+             <a href="{% url 'LehmanCustomConstruction:portfolio_project_detail_staff' pk=project.pk %}"
+                class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-brand-blue hover:bg-brand-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-blue whitespace-nowrap">
+                {% trans "View Project (Staff)" %}
+            </a>
+        </div>
+    </div>
+
+    {% if messages %}
+        <div class="mb-6 space-y-3">
+        {% for message in messages %}
+            <div class="p-4 rounded-md shadow-sm
+                {% if message.tags == 'success' %}bg-green-50 border border-green-300 text-green-700
+                {% elif message.tags == 'error' %}bg-red-50 border border-red-300 text-red-700
+                {% elif message.tags == 'info' %}bg-blue-50 border border-blue-300 text-blue-700
+                {% else %}bg-gray-50 border border-gray-300 text-gray-700{% endif %}"
+                 role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ formset.management_form }}
+
+        {% if formset.non_form_errors %}
+            <div class="bg-red-50 border-l-4 border-red-400 text-red-700 p-4 mb-5" role="alert">
+                <p class="font-bold">{% trans "Please correct the errors below:" %}</p>
+                <ul class="list-disc list-inside ml-4">
+                {% for error in formset.non_form_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        {% if not formset.forms %}
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-700 p-4 my-6 rounded-md shadow" role="alert">
+                <p class="font-bold">{% trans "No Gallery Images Found" %}</p>
+                <p>{% trans "There are currently no gallery images associated with this project to manage. You can add images by editing the project and uploading them." %}</p>
+            </div>
+        {% else %}
+            <p class="text-sm text-gray-600 mb-2">
+                {% trans "Adjust captions and display order. Select one image as the 'Featured Image' for the project. To remove an image, check 'Delete' and save." %}
+            </p>
+            {% if project.featured_image %}
+            <p class="text-sm text-gray-500 mb-4">
+                Current featured image: <strong class="text-gray-700">{{ current_featured_image_name|default:"None selected" }}</strong>
+            </p>
+            {% endif %}
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {% for form in formset %}
+                    <div class="image-management-card">
+                        <div class="flex-grow"> {# This div will take available space pushing controls to bottom #}
+                            {{ form.id }} {# Renders <input type="hidden" name="images-X-id" value="Y"> #}
+
+                            {% if form.instance.image and form.instance.image.url %}
+                                <img src="{{ form.instance.image.url }}" alt="Image for {{ project.title }}" class="image-preview-manage">
+                            {% else %}
+                                <div class="w-full h-48 bg-gray-100 rounded-md mb-3 flex items-center justify-center text-gray-400 text-sm border border-gray-200">
+                                    {% trans "Image missing or processing" %}
+                                </div>
+                            {% endif %}
+
+                            <div class="space-y-3">
+                                <div class="form-field-group">
+                                    <label for="{{ form.caption.id_for_label }}" class="form-label-xs">{% trans "Caption:" %}</label>
+                                    {{ form.caption }}
+                                    {% for error in form.caption.errors %}<p class="text-xs text-red-600 mt-1">{{ error }}</p>{% endfor %}
+                                </div>
+
+                                <div class="form-field-group">
+                                    <label for="{{ form.order.id_for_label }}" class="form-label-xs">{% trans "Display Order:" %}</label>
+                                    {{ form.order }}
+                                    {% for error in form.order.errors %}<p class="text-xs text-red-600 mt-1">{{ error }}</p>{% endfor %}
+                                </div>
+                            </div>
+                        </div> {# End flex-grow #}
+
+                        <div class="mt-auto pt-3"> {# This div will be at the bottom #}
+                            {# Featured Image Radio Button #}
+                            <div class="mt-2">
+                                <input type="radio" name="set_featured_image_id" value="{{ form.instance.pk }}" id="featured_img_{{ form.instance.pk }}" class="form-radio h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
+                                {% if project.featured_image and project.featured_image.name == form.instance.image.name %}checked{% endif %}>
+                                <label for="featured_img_{{ form.instance.pk }}" class="ml-2 text-sm text-gray-700 hover:text-indigo-600 cursor-pointer">Set as Featured</label>
+                                {% if project.featured_image and project.featured_image.name == form.instance.image.name %}
+                                    <span class="current-featured-badge">Currently Featured</span>
+                                {% endif %}
+                            </div>
+
+                            {% if formset.can_delete %}
+                            <div class="mt-3 pt-3 border-t border-gray-200">
+                                <div class="flex items-center">
+                                    {{ form.DELETE }}
+                                    <label for="{{ form.DELETE.id_for_label }}" class="ml-2 text-sm text-red-600 hover:text-red-800 cursor-pointer font-medium">{% trans "Delete this image" %}</label>
+                                </div>
+                                {% for error in form.DELETE.errors %}<p class="text-xs text-red-600 mt-1">{{ error }}</p>{% endfor %}
+                            </div>
+                            {% endif %}
+
+                            {% for field_name, field_errors in form.errors.items %}
+                                {% if field_name != 'caption' and field_name != 'order' and field_name != 'DELETE' and field_name != 'id' %}
+                                    <div class="mt-2 text-red-600 text-xs">
+                                        <strong>{{ field_name|capfirst }}:</strong>
+                                        {% for error in field_errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if formset.forms %}
+        <div class="mt-10 pt-6 border-t border-gray-200 text-center">
+            <button type="submit"
+                    class="px-8 py-3 border border-transparent rounded-lg shadow-lg text-base font-medium text-white bg-brand-gold hover:bg-brand-gold-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-gold transition-all duration-150 ease-in-out transform hover:scale-105">
+                {% trans "Save All Image Changes & Featured Status" %}
+            </button>
+        </div>
+        {% endif %}
+    </form>
+</div>
+{% endblock staff_content %}

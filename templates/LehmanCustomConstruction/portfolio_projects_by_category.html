@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ page_title|default:category.name }} - Lehman Custom Construction{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50">
+    <div class="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8 lg:py-16">
+
+        <nav class="mb-8 text-sm" aria-label="Breadcrumb">
+            <ol class="list-none p-0 inline-flex space-x-2">
+                <li class="flex items-center">
+                    <a href="{% url 'LehmanCustomConstruction:home' %}" class="text-gray-500 hover:text-primary-600">Home</a>
+                </li>
+                <li>
+                    <span class="text-gray-400">/</span>
+                </li>
+                <li class="flex items-center">
+                    <a href="{% url 'LehmanCustomConstruction:portfolio_category_list' %}" class="text-gray-500 hover:text-primary-600">Portfolio Styles</a>
+                </li>
+                <li>
+                    <span class="text-gray-400">/</span>
+                </li>
+                <li class="flex items-center">
+                    <span class="font-medium text-gray-700">{{ category.name }}</span>
+                </li>
+            </ol>
+        </nav>
+
+        <div class="text-center">
+            <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl">
+                {{ page_title|default:category.name }}
+            </h1>
+            {% if page_subtitle %}
+            <p class="max-w-2xl mx-auto mt-4 text-xl text-gray-500">
+                {{ page_subtitle }}
+            </p>
+            {% endif %}
+        </div>
+
+        {% if projects %}
+            <div class="grid grid-cols-1 gap-x-6 gap-y-10 mt-12 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+                {% for project in projects %}
+                    {% include "partials/_portfolio_project_card.html" with project=project %}
+                {% endfor %}
+            </div>
+
+            {% comment %} Pagination (Optional) {% endcomment %}
+            {% if is_paginated %}
+            <nav class="flex items-center justify-between px-4 py-3 mt-12 border-t border-gray-200 sm:px-6" aria-label="Pagination">
+                <div class="hidden sm:block">
+                    <p class="text-sm text-gray-700">
+                        Showing
+                        <span class="font-medium">{{ page_obj.start_index }}</span>
+                        to
+                        <span class="font-medium">{{ page_obj.end_index }}</span>
+                        of
+                        <span class="font-medium">{{ page_obj.paginator.count }}</span>
+                        results
+                    </p>
+                </div>
+                <div class="flex justify-between flex-1 sm:justify-end">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}" class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                            Previous
+                        </a>
+                    {% endif %}
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                            Next
+                        </a>
+                    {% endif %}
+                </div>
+            </nav>
+            {% endif %}
+
+        {% else %}
+            <div class="mt-12 text-center">
+                <p class="text-xl text-gray-500">There are no projects currently listed in the "{{ category.name }}" style.</p>
+                <div class="mt-6">
+                    <a href="{% url 'LehmanCustomConstruction:portfolio_category_list' %}" class="text-base font-medium text-primary-600 hover:text-primary-500">
+                        View other styles <span aria-hidden="true">&rarr;</span>
+                    </a>
+                    {% if all_categories|length > 1 %}
+                         or explore our main <a href="{% url 'LehmanCustomConstruction:portfolio_list' %}" class="text-base font-medium text-primary-600 hover:text-primary-500">portfolio</a>.
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+
+        {% comment %} Optional: List other categories for easy navigation {% endcomment %}
+        {% if all_categories|length > 1 %}
+        <div class="mt-16 pt-10 border-t border-gray-200">
+            <h3 class="text-xl font-semibold text-center text-gray-800">Explore Other Styles</h3>
+            <ul class="flex flex-wrap justify-center gap-x-4 gap-y-2 mt-6">
+                {% for cat in all_categories %}
+                    {% if cat.slug != category.slug %} {# Don't link to the current category #}
+                    <li>
+                        <a href="{{ cat.get_absolute_url }}"
+                           class="px-4 py-2 text-sm font-medium rounded-md
+                                  bg-gray-200 text-gray-700 hover:bg-gray-300 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                            {{ cat.name }} ({{ cat.num_published_projects }})
+                        </a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                 <li>
+                    <a href="{% url 'LehmanCustomConstruction:portfolio_category_list' %}"
+                       class="px-4 py-2 text-sm font-medium rounded-md
+                              bg-secondary-500 text-white hover:bg-secondary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-400">
+                        All Styles
+                    </a>
+                </li>
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

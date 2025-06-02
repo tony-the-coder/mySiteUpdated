@@ -1,0 +1,38 @@
+{% extends "staff_portal/staff_base.html" %}
+{% load static i18n %}
+
+{% block title %}Confirm Delete: {{ project.title }} - Staff Portal{% endblock %}
+
+{% block staff_content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto bg-white shadow-xl rounded-lg p-6 md:p-8">
+        <h1 class="text-2xl font-semibold text-red-700 mb-4">
+            {% trans "Confirm Deletion" %}
+        </h1>
+        <p class="text-gray-700 mb-1">
+            {% trans "Are you sure you want to delete the portfolio project titled:" %}
+        </p>
+        <p class="text-xl font-semibold text-brand-charcoal mb-4">
+            "{{ project.title }}"?
+        </p>
+        <p class="text-sm text-red-600 mb-6">
+            <strong>{% trans "Warning:" %}</strong> {% trans "This action cannot be undone. All associated gallery images will also be deleted." %}
+        </p>
+
+        <form method="post" action="{% url 'LehmanCustomConstruction:staff_portfolio_delete' pk=project.pk %}">
+            {% csrf_token %}
+            <div class="flex justify-end space-x-4 mt-8">
+                {# Cancel Button - Now links to the staff portfolio list #}
+                <a href="{% url 'LehmanCustomConstruction:staff_portfolio_list' %}"
+                   class="button-cancel-dialog">
+                    {% trans "Cancel" %}
+                </a>
+                <button type="submit"
+                        class="button-confirm-delete">
+                    {% trans "Yes, Delete Project" %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock staff_content %}

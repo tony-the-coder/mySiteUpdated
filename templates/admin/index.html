@@ -1,0 +1,41 @@
+{# File: templates/admin/index.html #}
+{% extends "admin/index.html" %}
+{% load static i18n %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/admin_override.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div id="content-main">
+        {# Custom Quick Access Module #}
+        <div class="module">
+            <h2 style="background-color:#AE8F69; color:#14293A; padding: 8px 10px; font-size: 0.875rem; font-weight: bold; margin-bottom:0;">Quick Access Dashboard</h2>
+            <div style="padding: 10px;">
+                <ul class="actionlist" style="margin-left: 0; padding-left: 0;">
+                     {# --- REMOVED Broken Link to Customer Dashboard --- #}
+
+                      {# Link to Customer List in Admin #}
+                      <li class="viewsitelink" style="margin-bottom: 5px;">
+                         <a href="{% url 'admin:LehmanCustomConstruction_customer_changelist' %}">View/Manage Customers</a>
+                      </li>
+                      {# Add other useful admin links #}
+                      <li class="addlink" style="margin-bottom: 5px;">
+                        <a href="{% url 'admin:LehmanCustomConstruction_project_add' %}">Add New Internal Project</a>
+                      </li>
+                      <li class="addlink" style="margin-bottom: 5px;">
+                        <a href="{% url 'admin:LehmanCustomConstruction_portfolioproject_add' %}">Add New Portfolio Project</a>
+                      </li>
+                </ul>
+            </div>
+        </div>
+
+        {# Include the default admin index content #}
+        {{ block.super }}
+    </div>
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></h1>
+{% endblock %}

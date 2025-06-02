@@ -1,0 +1,27 @@
+{
+  "name": "lehman-django",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:css": "tailwindcss -i ./static/src/input.css -o ./static/css/output.css --minify",
+    "watch:css": "tailwindcss -i ./static/src/input.css -o ./static/css/output.css --watch",
+    "build:js": "esbuild ./static/js/main.js --bundle --outfile=./static/js/main.bundle.js --minify",
+    "watch:js": "esbuild ./static/js/main.js --bundle --outfile=./static/js/main.bundle.js --sourcemap --watch",
+    "build": "npm run build:css && npm run build:js",
+    "dev": "concurrently \"npm:watch:css\" \"npm:watch:js\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@alpinejs/focus": "^3.14.9",
+    "@alpinejs/intersect": "^3.13.10",
+    "@tailwindcss/cli": "^4.1.6",
+    "alpinejs": "^3.13.10",
+    "concurrently": "^8.2.2",
+    "esbuild": "^0.25.4",
+    "tailwindcss": "^4.1.6"
+  }
+}

@@ -1,0 +1,75 @@
+{% load static %}
+
+{# Use Primary color for background, Background (Off-white) or light grays for text #}
+<footer class="bg-primary text-gray-300 border-t border-gray-700 mt-16 font-sans"> {# Default font-sans #}
+    <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+        <div class="md:flex md:justify-between">
+            <div class="mb-6 md:mb-0">
+                {# Logo/Name - Use Background color for text #}
+                 {# CHANGE HERE #}
+                <a href="{% url 'LehmanCustomConstruction:home' %}" class="flex items-center text-background">
+                    {# <img src="{% static 'images/lehman-logo-light.png' %}" class="h-8 mr-3" alt="Lehman Logo" /> #}
+                    <span class="self-center text-2xl font-semibold whitespace-nowrap font-serif">Lehman Custom Construction</span> {# Serif for brand #}
+                </a>
+                {# Description Text - Use lighter gray #}
+                <p class="mt-4 text-sm text-gray-400 max-w-xs">
+                    Designing for Life. Building to Last. Creating exceptional custom homes.
+                </p>
+            </div>
+            <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
+                <div>
+                    {# Use slightly brighter text for headings #}
+                    <h2 class="mb-6 text-sm font-semibold text-background uppercase">Quick Links</h2>
+                     {# Link text - Lighter gray, Accent hover #}
+                    <ul class="text-gray-400 font-medium">
+                        <li class="mb-4">
+                             {# CHANGE HERE #}
+                            <a href="{% url 'LehmanCustomConstruction:about_us' %}" class="hover:underline hover:text-accent">About Us</a>
+                        </li>
+                        <li class="mb-4">
+                             {# CHANGE HERE #}
+                             <a href="{% url 'LehmanCustomConstruction:portfolio_list' %}" class="hover:underline hover:text-accent">Our Work</a>
+                        </li>
+                        <li class="mb-4">
+                             {# This one was already correct! #}
+                            <a href="{% url 'LehmanCustomConstruction:blog_list' %}" class="hover:underline hover:text-accent">Blog</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h2 class="mb-6 text-sm font-semibold text-background uppercase">Legal</h2>
+                    <ul class="text-gray-400 font-medium">
+                        <li class="mb-4">
+                            <a href="#" class="hover:underline hover:text-accent">Privacy Policy</a> {# Placeholder #}
+                        </li>
+                        <li>
+                            <a href="#" class="hover:underline hover:text-accent">Terms &amp; Conditions</a> {# Placeholder #}
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h2 class="mb-6 text-sm font-semibold text-background uppercase">Contact</h2>
+                    <ul class="text-gray-400 font-medium">
+                        <li class="mb-4">
+                             {# CHANGE HERE #}
+                            <a href="{% url 'LehmanCustomConstruction:contact_us' %}" class="hover:underline hover:text-accent">Contact Us</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {# Divider - Darker subtle border #}
+        <hr class="my-6 border-gray-700 sm:mx-auto lg:my-8" />
+        <div class="sm:flex sm:items-center sm:justify-between">
+            {# Copyright text - Lighter gray #}
+            <span class="text-sm text-gray-400 sm:text-center">
+                 {# CHANGE HERE #}
+                © {% now "Y" %} <a href="{% url 'LehmanCustomConstruction:home' %}" class="hover:underline hover:text-accent">Lehman Custom Construction™</a>. All Rights Reserved.
+            </span>
+            <div class="flex mt-4 space-x-5 sm:justify-center sm:mt-0">
+                {# Social Icons Placeholder - Lighter gray, Accent hover #}
+                {# <a href="#" class="text-gray-400 hover:text-accent"> SVG Here </a> #}
+            </div>
+        </div>
+    </div>
+</footer>

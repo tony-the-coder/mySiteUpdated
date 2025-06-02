@@ -1,0 +1,62 @@
+{% extends "admin/base_site.html" %} {# Extend admin base for similar look & feel #}
+{% load static humanize %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <h1>{{ page_title }}</h1>
+    <p><strong>Customer:</strong> {{ project.customer }}</p> {# Link to customer detail? #}
+    {# <p><a href="{% url 'admin:LehmanCustomConstruction_project_change' project.pk %}">Edit Project Details</a></p> #}
+
+    {# Expenses Table #}
+    <div class="module" id="expense-module">
+        <div class="results">
+            <table id="expense-results-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Vendor</th>
+                        <th>Description</th>
+                        <th>Invoice #</th>
+                        <th>Amount</th>
+                        {# Maybe link to expense edit page? #}
+                        {# <th>Actions</th> #}
+                    </tr>
+                </thead>
+                <tbody>
+                {% for expense in expenses %}
+                    <tr class="{% cycle 'row1' 'row2' %}">
+                        <td>{{ expense.expense_date|date:"Y-m-d" }}</td>
+                        <td>{{ expense.category.name|default:"N/A" }}</td>
+                        <td>{{ expense.vendor.name|default:"N/A" }}</td>
+                        <td>{{ expense.description|default:""|truncatechars:50 }}</td>
+                        <td>{{ expense.invoice_number|default:"" }}</td>
+                        <td style="text-align: right;">${{ expense.amount|floatformat:2|intcomma }}</td>
+                        {# <td><a href="{% url 'admin:LehmanCustomConstruction_expense_change' expense.pk %}">Edit</a></td> #}
+                    </tr>
+                {% empty %}
+                    <tr><td colspan="6">No active expenses found for this project.</td></tr>
+                {% endfor %}
+                </tbody>
+                 <tfoot>
+                    <tr>
+                        <td colspan="5" style="text-align: right; font-weight: bold;">Total Expenses:</td>
+                        <td style="text-align: right; font-weight: bold;">${{ total_expenses|floatformat:2|intcomma }}</td>
+                        {# <td></td> #}
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    {# Link back to customer detail page #}
+    <div class="submit-row">
+         <a href="{% url 'LehmanCustomConstruction:staff_customer_detail' project.customer.pk %}" class="button">Back to Customer Details</a>
+         <a href="{% url 'admin:LehmanCustomConstruction_project_change' project.pk %}" class="button default">Edit Project</a>
+         <a href="{% url 'admin:LehmanCustomConstruction_expense_add' %}?project={{ project.pk }}" class="button">Add New Expense</a>
+    </div>
+
+</div>
+{% endblock %}

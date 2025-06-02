@@ -1,0 +1,101 @@
+/* static/css/admin_override.css */
+
+/* --- Header Background and Text Color --- */
+#header {
+    background-color: #14293A; /* Primary color */
+    color: #E9E4DE; /* Background color (light text) */
+}
+
+/* --- Header Link Color --- */
+#header a:link,
+#header a:visited {
+    color: #E9E4DE; /* Background color (light text) */
+}
+
+#header a:hover {
+    color: #ffffff; /* White on hover */
+}
+
+/* --- Branding Text Color --- */
+#branding h1,
+#branding h1 a:link,
+#branding h1 a:visited {
+     color: #E9E4DE; /* Background color (light text) */
+}
+
+/* --- User Tools Link Color --- */
+#user-tools a {
+     color: #E9E4DE; /* Background color (light text) */
+ }
+#user-tools a:focus,
+#user-tools a:hover {
+    border-bottom-color: #AE8F69; /* Accent color */
+    color: #AE8F69; /* Accent color */
+}
+
+/* === SIDEBAR STYLES - Updated === */
+
+/* --- Sidebar Module Headers Background --- */
+.module h2,
+.module caption,
+#nav-sidebar .module > h2,
+#nav-sidebar .module > div > h2 { /* Catch various structures */
+    background-color: #14293A; /* Primary color */
+    /* Default text color set here, might be overridden by link below */
+    color: #E9E4DE;
+    background-image: none; /* Remove default Django gradient */
+    border-bottom: 1px solid #0a1a27; /* Slightly darker primary */
+    font-weight: bold;
+    font-size: 0.875rem; /* 14px */
+    padding: 8px 10px;
+    margin-bottom: 0; /* Remove default margin if needed */
+}
+
+/* --- Sidebar Module Header TEXT/LINK Color (Explicitly target links inside) --- */
+.module h2 a,
+.module caption a,
+#nav-sidebar .module > h2 a,
+#nav-sidebar .module > div > h2 a,
+#nav-sidebar .module > h2 span, /* Target potential spans too */
+#nav-sidebar .module > div > h2 span {
+    color: #E9E4DE !important; /* Ensure light text (Background color) */
+    display: block; /* Make link fill header for easier clicking */
+}
+
+/* --- Sidebar Module Header LINK HOVER Color --- */
+.module h2 a:hover,
+.module caption a:hover,
+#nav-sidebar .module > h2 a:hover,
+#nav-sidebar .module > div > h2 a:hover {
+     color: #ffffff !important; /* White on hover */
+     text-decoration: none; /* Remove underline on hover if desired */
+}
+
+
+/* --- Sidebar Links (Default State - inside the module content) --- */
+#nav-sidebar .module ul li a,
+#nav-sidebar .module table th a {
+     color: #14293A; /* Primary color for links on light background */
+     font-weight: normal;
+}
+
+
+/* --- Sidebar Links (Hover/Focus State) --- */
+#nav-sidebar .module ul li a:hover,
+#nav-sidebar .module ul li a:focus,
+#nav-sidebar .module table th a:hover,
+#nav-sidebar .module table th a:focus {
+    color: #AE8F69; /* Accent color on hover */
+}
+
+/* --- Sidebar Current/Active Link --- */
+/* Targets the link for the currently viewed model/app */
+#nav-sidebar .current-app .module-heading a, /* Active App Header (May not have specific class) */
+#nav-sidebar .current-model a, /* Active Model Link */
+#nav-sidebar .section a.active { /* General active class fallback */
+    font-weight: bold;
+    color: #AE8F69; /* Accent color for active link */
+    /* background-color: #f0f0f0; */ /* Optional background highlight */
+}
+
+/* === END SIDEBAR STYLES === */

@@ -1,0 +1,41 @@
+{% extends "staff_portal/staff_base.html" %}
+{% load static %}
+
+{% block staff_content %}
+    <h2 class="text-2xl font-semibold text-gray-700 mb-6">
+        Welcome to the Staff Dashboard, {{ request.user.first_name|default:request.user.username }}!
+    </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div class="bg-gradient-to-r from-blue-500 to-indigo-600 p-6 rounded-lg shadow text-white">
+            <div class="text-4xl font-bold">{{ active_customer_count|default:"0" }}</div>
+            <div class="text-sm uppercase tracking-wide mt-1">Active Customers</div>
+        </div>
+         <div class="bg-gradient-to-r from-green-500 to-emerald-600 p-6 rounded-lg shadow text-white">
+            <div class="text-4xl font-bold">{{ active_project_count|default:"0" }}</div>
+            <div class="text-sm uppercase tracking-wide mt-1">Active / Planning Projects</div>
+        </div>
+         <div class="bg-gradient-to-r from-yellow-500 to-orange-600 p-6 rounded-lg shadow text-white">
+            <div class="text-4xl font-bold">{{ new_inquiry_count|default:"0" }}</div>
+            <div class="text-sm uppercase tracking-wide mt-1">New Contact Inquiries</div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="text-lg font-medium text-gray-900">Customers</h3>
+            <p class="mt-2 text-sm text-gray-600">View and manage customer details.</p>
+            <a href="{% url 'LehmanCustomConstruction:staff_customer_list' %}" class="mt-4 inline-block text-accent hover:underline">View Customers &rarr;</a>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="text-lg font-medium text-gray-900">Projects</h3>
+            <p class="mt-2 text-sm text-gray-600">View active projects and status.</p>
+             <a href="{% url 'LehmanCustomConstruction:staff_project_list' %}" class="mt-4 inline-block text-accent hover:underline">View Projects &rarr;</a>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="text-lg font-medium text-gray-900">Contact Inquiries</h3>
+            <p class="mt-2 text-sm text-gray-600">Manage new contact form submissions.</p>
+             <a href="{% url 'admin:LehmanCustomConstruction_contactinquiry_changelist' %}" target="_blank" class="mt-4 inline-block text-accent hover:underline">View Inquiries (Admin) &rarr;</a>
+        </div>
+    </div>
+{% endblock staff_content %}

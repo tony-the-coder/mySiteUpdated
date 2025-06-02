@@ -1,0 +1,23 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{# Add custom CSS override #}
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/admin_override.css' %}">
+{% endblock %}
+
+{# --- Userlinks block only includes the default links now --- #}
+{% block userlinks %}
+    {# Removed the broken link to 'customer_dashboard' #}
+    {# This renders the default links like View Site, Change Password, Logout #}
+    {{ block.super }}
+{% endblock %}
+
+{# --- Branding block uses custom site header --- #}
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header }}</a></h1>
+{% endblock %}
+
+{# You can uncomment/add other blocks like nav-global if needed later #}
+{# {% block nav-global %}{% endblock %} #}

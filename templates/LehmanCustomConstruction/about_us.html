@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}About Us - Lehman Custom Construction{% endblock %}
+
+{# Hero Section for About Page #}
+{% block hero_section %}
+{# This uses your .page-header-bg class for basic structure and then an inline style for the specific image #}
+<section class="page-header-bg" style="background-image: url('{% static 'images/about_hero_placeholder.jpg' %}');">
+    {# REMEMBER: You MUST replace 'images/about_hero_placeholder.jpg' with a real image path in your static files #}
+    {# This image should be a high-quality photo of a custom home or a relevant architectural shot #}
+    <div class="absolute inset-0 bg-black opacity-50 z-0"></div> {# Darkening overlay for text readability #}
+    <div class="relative z-10 p-6 text-center">
+        {# .page-title class comes from your input.css. Animations can be added via HTML if desired #}
+        <h1 class="page-title animate-fade-in-down">
+            Our Story & Philosophy
+        </h1>
+    </div>
+</section>
+{% endblock hero_section %}
+
+{% block content %}
+<div class="bg-brand-white py-16 lg:py-24"> {# Using bg-brand-white from your theme for the main content area bg #}
+    <div class="container mx-auto px-6 lg:px-8">
+
+        {# Introduction Section #}
+        <section class="max-w-3xl mx-auto text-center mb-16 lg:mb-24" data-aos="fade-up">
+            <h2 class="section-heading"> {# .section-heading from your input.css #}
+                Building More Than Homes
+            </h2>
+            <p class="section-subheading mb-6"> {# .section-subheading from your input.css #}
+                At Lehman Custom Construction, we believe a home is the most significant expression of a family’s life and values. It's where memories are forged, futures are dreamt, and legacies begin. For [Number] years, we have dedicated ourselves to translating your unique aspirations into impeccably crafted custom homes, built with an unwavering commitment to quality, transparent partnership, and enduring style.
+            </p>
+            <p class="section-subheading">
+                Our philosophy is simple: listen intently, design thoughtfully, and build with unparalleled precision. We understand that building a custom home is a deeply personal journey, and we are honored to be your trusted guide every step of the way.
+            </p>
+        </section>
+
+        {# The Lehman Approach Section #}
+        <section class="max-w-4xl mx-auto mb-16 lg:mb-24">
+            <h2 class="section-heading text-center mb-12" data-aos="fade-up">
+                The Lehman Approach
+            </h2>
+            <div class="space-y-10">
+                {# Feature 1 #}
+                <div class="flex flex-col md:flex-row items-center text-center md:text-left" data-aos="fade-up" data-aos-delay="100">
+                    <div class="md:w-1/4 mb-6 md:mb-0 md:mr-8 flex-shrink-0 flex justify-center md:justify-start">
+                        <div class="text-brand-gold text-5xl md:text-6xl">
+                            <i class="fas fa-drafting-compass"></i> {# Example Font Awesome Icon - ensure Font Awesome is linked in base.html #}
+                        </div>
+                    </div>
+                    <div class="md:w-3/4">
+                        <h3 class="font-heading text-2xl text-brand-charcoal font-medium mb-3">Visionary Design, Flawless Execution</h3>
+                        <p class="font-body text-brand-gray-text leading-relaxed">
+                            We collaborate closely with you and visionary architects, ensuring every detail of your home is a true reflection of your lifestyle and aesthetic preferences. From initial concept to final walkthrough, our meticulous project management guarantees a seamless and predictable process, delivering on time and on vision.
+                        </p>
+                    </div>
+                </div>
+
+                <hr class="my-10 border-brand-gray-medium data-aos="fade-up""> {# border-brand-gray-medium from your theme #}
+
+                {# Feature 2 #}
+                <div class="flex flex-col md:flex-row-reverse items-center text-center md:text-left" data-aos="fade-up" data-aos-delay="200">
+                    <div class="md:w-1/4 mb-6 md:mb-0 md:ml-8 flex-shrink-0 flex justify-center md:justify-end">
+                        <div class="text-brand-gold text-5xl md:text-6xl">
+                            <i class="fas fa-gem"></i> {# Example Font Awesome Icon #}
+                        </div>
+                    </div>
+                    <div class="md:w-3/4">
+                        <h3 class="font-heading text-2xl text-brand-charcoal font-medium mb-3">Uncompromising Quality & Craftsmanship</h3>
+                        <p class="font-body text-brand-gray-text leading-relaxed">
+                            Our reputation is built upon a foundation of superior craftsmanship. We partner with the finest artisans and utilize only premium materials, ensuring that your home is not only breathtakingly beautiful but also built to endure for generations. Every joint, every finish, every element is executed with precision and care.
+                        </p>
+                    </div>
+                </div>
+
+                <hr class="my-10 border-brand-gray-medium" data-aos="fade-up">
+
+                {# Feature 3 #}
+                <div class="flex flex-col md:flex-row items-center text-center md:text-left" data-aos="fade-up" data-aos-delay="300">
+                    <div class="md:w-1/4 mb-6 md:mb-0 md:mr-8 flex-shrink-0 flex justify-center md:justify-start">
+                        <div class="text-brand-gold text-5xl md:text-6xl">
+                             <i class="fas fa-handshake"></i> {# Example Font Awesome Icon #}
+                        </div>
+                    </div>
+                    <div class="md:w-3/4">
+                        <h3 class="font-heading text-2xl text-brand-charcoal font-medium mb-3">A Partnership Built on Trust</h3>
+                        <p class="font-body text-brand-gray-text leading-relaxed">
+                            We believe that open communication and transparency are paramount to a successful partnership. Throughout the construction journey, you will be kept informed and involved, ensuring your voice is heard and your expectations are not just met, but exceeded. Your peace of mind is our priority.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {# Call to Action Section #}
+        <section class="text-center pt-10" data-aos="fade-up">
+            <h3 class="font-heading text-2xl md:text-3xl text-brand-charcoal font-medium mb-6">
+                Ready to Create Your Legacy Home?
+            </h3>
+            <p class="section-subheading mb-8 max-w-xl mx-auto">
+                Let's discuss how Lehman Custom Construction can bring your vision to life with the artistry and dedication it deserves.
+            </p>
+            <a href="{% url 'LehmanCustomConstruction:contact_us' %}" class="cta-button-primary"> {# .cta-button-primary from your input.css #}
+                Schedule a Consultation
+            </a>
+        </section>
+
+    </div>
+</div>
+{% endblock %}

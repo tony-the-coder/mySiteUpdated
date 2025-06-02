@@ -1,0 +1,67 @@
+{# templates/registration/login.html #}
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
+    <div class="max-w-md mx-auto bg-white shadow-md rounded-lg p-6 md:p-8">
+        <h2 class="text-center text-2xl font-semibold text-primary font-serif mb-6">
+            Log In to Your Account
+        </h2>
+
+        {% if form.errors %}
+            <div class="mb-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded text-sm">
+                Your username and password didn't match. Please try again.
+            </div>
+        {% endif %}
+
+        {% if next %}
+            {% if user.is_authenticated %}
+                <p class="text-center text-sm text-secondary mb-4">Your account doesn't have access to this page. Please login with an account that has access.</p>
+            {% else %}
+                <p class="text-center text-sm text-secondary mb-4">Please login to view the requested page.</p>
+            {% endif %}
+        {% endif %}
+
+        <form class="space-y-6" method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+
+            <div class="relative z-0 w-full group">
+                <input type="text" name="username" id="id_username" autofocus autocapitalize="none" autocomplete="username" maxlength="254" required
+                       class="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent py-2.5 px-0 text-sm text-primary focus:border-accent focus:outline-none focus:ring-0"
+                       placeholder=" " />
+                <label for="id_username"
+                       class="absolute text-sm text-secondary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-accent rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                    Username
+                </label>
+            </div>
+
+            <div class="relative z-0 w-full group">
+                 <input type="password" name="password" id="id_password" autocomplete="current-password" required
+                       class="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent py-2.5 px-0 text-sm text-primary focus:border-accent focus:outline-none focus:ring-0"
+                       placeholder=" " />
+                <label for="id_password"
+                       class="absolute text-sm text-secondary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-accent rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                     Password
+                </label>
+            </div>
+
+            <div class="flex items-center justify-end">
+                <div class="text-sm">
+                    <a href="{% url 'password_reset' %}" class="font-medium text-accent hover:underline">Forgot your password?</a>
+                </div>
+            </div>
+
+            <div>
+                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-accent hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent">
+                    Sign in
+                </button>
+            </div>
+
+            <input type="hidden" name="next" value="{{ next }}">
+        </form>
+    </div>
+</div>
+{% endblock %}

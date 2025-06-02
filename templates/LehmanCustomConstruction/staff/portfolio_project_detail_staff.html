@@ -1,0 +1,138 @@
+{% extends "staff_portal/staff_base.html" %}
+{% load static i18n humanize %}
+
+{% block title %}Staff View: {{ project.title }} - Portfolio{% endblock %}
+
+{% block staff_content %}
+<div class="container mx-auto px-4 py-8">
+
+    {% if messages %}
+        <div class="mb-6 space-y-3">
+        {% for message in messages %}
+            <div class="p-4 rounded-md shadow-sm
+                {% if message.tags == 'success' %}bg-green-50 border border-green-300 text-green-700
+                {% elif message.tags == 'error' %}bg-red-50 border border-red-300 text-red-700
+                {% elif message.tags == 'info' %}bg-blue-50 border border-blue-300 text-blue-700
+                {% else %}bg-gray-50 border border-gray-300 text-gray-700{% endif %}"
+                 role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="bg-white shadow-xl rounded-lg p-6 md:p-8">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 pb-4 border-b border-gray-300">
+            <div>
+                <h1 class="text-2xl lg:text-3xl font-bold text-brand-charcoal">
+                    {{ project.title }}
+                </h1>
+                <p class="text-md text-gray-500">Staff Project View</p>
+            </div>
+            <div class="flex flex-wrap gap-2 mt-4 md:mt-0"> {# Added flex-wrap and gap-2 for responsiveness #}
+                <a href="{% url 'LehmanCustomConstruction:staff_portfolio_edit' pk=project.pk %}"
+                   class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                        <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
+                    </svg>
+                    {% trans "Edit Details" %}
+                </a>
+                <a href="{% url 'LehmanCustomConstruction:staff_manage_portfolio_images' pk=project.pk %}"
+                   class="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    {% trans "Manage Images" %}
+                </a>
+                <a href="{{ project.get_absolute_url }}" target="_blank"
+                   class="inline-block bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    {% trans "View Public" %}
+                </a>
+                <a href="{% url 'LehmanCustomConstruction:staff_portfolio_delete' pk=project.pk %}"
+                   class="inline-block bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    {% trans "Delete Project" %}
+                </a>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="md:col-span-2">
+                {% if project.featured_image %}
+                <div class="mb-6">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Featured Image</h3>
+                    <img src="{{ project.featured_image.url }}" alt="Featured image for {{ project.title }}" class="w-full h-auto rounded-lg shadow-lg object-cover max-h-96">
+                </div>
+                {% else %}
+                <div class="mb-6 p-4 bg-yellow-50 border-l-4 border-yellow-500 text-yellow-700 rounded-md">
+                    <p><strong class="font-semibold">{% trans "No Featured Image Set." %}</strong> {% trans "You can set one on the 'Manage Images' page." %}</p>
+                </div>
+                {% endif %}
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Project Details</h3>
+                <div class="prose max-w-none text-gray-600 leading-relaxed">
+                    {{ project.details|safe|linebreaksbr|default:"No detailed description provided." }}
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-xl font-semibold text-gray-700 mb-2 border-b pb-2">Summary</h3>
+                <div class="text-sm text-gray-600 space-y-2">
+                    <p><strong>{% trans "Category" %}:</strong> {{ project.category.name|default:"N/A" }}</p>
+                    <p><strong>{% trans "Short Description" %}:</strong> {{ project.short_description|default:"N/A" }}</p>
+                    <p><strong>{% trans "Status (Public)" %}:</strong> {{ project.get_status_display|default:"N/A" }}</p>
+                    <p><strong>{% trans "Location" %}:</strong> {{ project.location|default:"N/A" }}</p>
+                    <p><strong>{% trans "Year Completed" %}:</strong> {{ project.year_completed|default:"N/A" }}</p>
+                    <p><strong>{% trans "Square Footage" %}:</strong> {{ project.square_footage|intcomma|default:"N/A" }} sq ft</p>
+                    <p><strong>{% trans "Display Order" %}:</strong> {{ project.order }}</p>
+                    <p><strong>{% trans "Publicly Active" %}:</strong>
+                        {% if project.is_active %}
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">{% trans "Yes" %}</span>
+                        {% else %}
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">{% trans "No" %}</span>
+                        {% endif %}
+                    </p>
+                    <p><strong>{% trans "Created" %}:</strong> {{ project.created_at|date:"Y-m-d P" }}</p>
+                    <p><strong>{% trans "Last Updated" %}:</strong> {{ project.updated_at|date:"Y-m-d P" }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-10">
+            <h3 class="text-2xl font-semibold text-gray-700 mb-4">Gallery Images ({{ project.images.count }})</h3>
+            {% if project.images.all %}
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    {% for image in project.images.all %}
+                    <div class="bg-gray-50 p-2 rounded-lg shadow border border-gray-200 text-center">
+                        <img src="{{ image.image.url }}" alt="{{ image.caption|default:'Gallery image' }}" class="w-full h-40 object-cover rounded-md mb-2">
+                        <p class="text-xs text-gray-600 truncate" title="{{ image.caption|default:'No caption' }}">{{ image.caption|default:"<em>No caption</em>"|safe }}</p>
+                        <p class="text-xs text-gray-500">Order: {{ image.order }}</p>
+                        {% if project.featured_image and project.featured_image.name == image.image.name %}
+                             <span class="mt-1 inline-block bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">Featured</span>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-gray-600">{% trans "No gallery images have been uploaded for this project yet." %}</p>
+            {% endif %}
+        </div>
+
+        <div class="mt-10 pt-6 border-t border-gray-200">
+            <a href="{% url 'LehmanCustomConstruction:staff_portfolio_list' %}"
+               class="inline-flex items-center text-blue-600 hover:text-blue-800 transition duration-150 ease-in-out">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                {% trans "Back to Portfolio List" %}
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock staff_content %}

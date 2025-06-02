@@ -1,0 +1,92 @@
+{% extends "staff_portal/staff_base.html" %}
+{% load static i18n %}
+
+{% block title %}{{ page_title|default:"My Profile" }} - Staff Portal{% endblock %}
+
+{% block staff_content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="bg-white shadow-xl rounded-lg p-6 md:p-8 max-w-3xl mx-auto">
+        <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-300">
+            <h1 class="text-2xl md:text-3xl font-semibold text-brand-charcoal">
+                {{ page_title|default:"My Profile" }}
+            </h1>
+            <a href="{% url 'LehmanCustomConstruction:staff_user_profile_edit' %}" class="inline-block px-5 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                {% trans "Edit Profile" %}
+            </a>
+        </div>
+
+        {% if messages %}
+            <div class="mb-6 space-y-3">
+                {% for message in messages %}
+                    <div class="p-4 rounded-md shadow-sm
+                        {% if message.tags == 'success' %}bg-green-50 border border-green-300 text-green-700
+                        {% elif message.tags == 'error' %}bg-red-50 border border-red-300 text-red-700
+                        {% else %}bg-blue-50 border border-blue-300 text-blue-700{% endif %}"
+                         role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="space-y-6">
+            {# Account Information Section #}
+            <section aria-labelledby="account-info-heading">
+                <h2 id="account-info-heading" class="text-xl font-semibold text-gray-800 mb-3">Account Information</h2>
+                <div class="bg-gray-50 p-4 rounded-md shadow-sm border border-gray-200">
+                    <dl class="space-y-3 text-sm">
+                        <div class="flex flex-col sm:flex-row">
+                            <dt class="w-full sm:w-1/3 font-medium text-gray-500">Username:</dt>
+                            <dd class="w-full sm:w-2/3 text-gray-800">{{ user_profile.username }}</dd>
+                        </div>
+                        <div class="flex flex-col sm:flex-row">
+                            <dt class="w-full sm:w-1/3 font-medium text-gray-500">First Name:</dt>
+                            <dd class="w-full sm:w-2/3 text-gray-800">{{ user_profile.first_name|default:"Not set" }}</dd>
+                        </div>
+                        <div class="flex flex-col sm:flex-row">
+                            <dt class="w-full sm:w-1/3 font-medium text-gray-500">Last Name:</dt>
+                            <dd class="w-full sm:w-2/3 text-gray-800">{{ user_profile.last_name|default:"Not set" }}</dd>
+                        </div>
+                        <div class="flex flex-col sm:flex-row">
+                            <dt class="w-full sm:w-1/3 font-medium text-gray-500">Email Address:</dt>
+                            <dd class="w-full sm:w-2/3 text-gray-800">{{ user_profile.email|default:"Not set" }}</dd>
+                        </div>
+                        {# Removed Staff Status and Superuser Status for regular staff view #}
+                        <div class="flex flex-col sm:flex-row">
+                            <dt class="w-full sm:w-1/3 font-medium text-gray-500">Last Login:</dt>
+                            <dd class="w-full sm:w-2/3 text-gray-800">{{ user_profile.last_login|date:"F j, Y, P"|default:"Never" }}</dd>
+                        </div>
+                        <div class="flex flex-col sm:flex-row">
+                            <dt class="w-full sm:w-1/3 font-medium text-gray-500">Date Joined:</dt>
+                            <dd class="w-full sm:w-2/3 text-gray-800">{{ user_profile.date_joined|date:"F j, Y" }}</dd>
+                        </div>
+                    </dl>
+                </div>
+            </section>
+
+            {# Security Section - Password Change #}
+            <section aria-labelledby="security-heading" class="pt-6 border-t border-gray-200">
+                <h2 id="security-heading" class="text-xl font-semibold text-gray-800 mb-3">Security</h2>
+                <a href="{% url 'password_change' %}"
+                   class="inline-block px-6 py-2.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-brand-gold hover:bg-brand-gold-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-gold">
+                    {% trans "Change My Password" %}
+                </a>
+                <p class="mt-2 text-xs text-gray-500">
+                    {% trans "You will be asked to enter your old password and then your new password twice." %}
+                </p>
+            </section>
+
+            {# Commented out section for "Edit Profile Details" as before #}
+            {% comment %}
+            <section aria-labelledby="edit-profile-heading" class="pt-6 border-t border-gray-200">
+                <h2 id="edit-profile-heading" class="text-xl font-semibold text-gray-800 mb-3">Edit Profile Details</h2>
+                <p class="text-sm text-gray-600 mb-3">To change your name or email address, please contact an administrator or use the Django admin interface if you have access.</p>
+                <a href="#" class="inline-block px-5 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                    Edit Name & Email (Feature to be built)
+                </a>
+            </section>
+            {% endcomment %}
+        </div>
+    </div>
+</div>
+{% endblock staff_content %}

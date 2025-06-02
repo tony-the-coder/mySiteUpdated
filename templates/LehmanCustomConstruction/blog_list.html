@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{{ page_title|default:"Our Insights" }} - Lehman Custom Construction{% endblock title %}
+
+{% block content %}
+
+{# --- Hero Section for Blog List --- #}
+{# This hero section is the first content, so it will appear under the fixed navbar. #}
+{# The inner div needs top padding to push text content below the navbar's initial height. #}
+{# Assuming navbar on load is ~112px-128px tall (py-6 + h-16). Adjust pt-XX below accordingly. #}
+<section aria-labelledby="blog-hero-title" class="relative bg-gradient-to-br from-gray-50 via-gray-100 to-stone-100 text-gray-700 border-b border-gray-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20 md:py-28 lg:py-32 pt-32 md:pt-36 lg:pt-44"> {# Adjusted top padding #}
+        <h1 id="blog-hero-title" class="text-4xl sm:text-5xl md:text-6xl font-bold font-serif text-gray-800 mb-5 leading-tight" style="font-family: 'Playfair Display', serif;">
+            {{ page_title|default:"Design & Build Insights" }}
+        </h1>
+        <p class="mt-4 max-w-3xl mx-auto text-lg sm:text-xl text-gray-600" style="font-family: 'Lato', sans-serif;">
+            Explore the latest in custom home trends, expert advice, and project spotlights from Lehman Custom Construction.
+        </p>
+    </div>
+</section>
+
+{# --- Main Content Area for Blog Posts --- #}
+<div class="bg-white py-12 sm:py-16 lg:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {% if blog_posts %}
+            <div class="grid gap-8 sm:gap-10 md:gap-12 lg:gap-14 md:grid-cols-2 lg:grid-cols-3">
+                {% for post in blog_posts %}
+                    {# Ensure _blog_post_card.html is styled for a light theme #}
+                    {% include 'partials/_blog_post_card.html' with post=post light_theme=True %}
+                {% endfor %}
+            </div>
+
+            {# --- Pagination (Styled for light theme) --- #}
+            {% if is_paginated %}
+            <nav class="mt-12 sm:mt-16 pt-8 sm:pt-10 border-t border-gray-200 flex items-center justify-between" aria-label="Pagination">
+                <div class="hidden sm:block">
+                    <p class="text-sm text-gray-600">
+                        Showing <span class="font-semibold text-gray-800">{{ page_obj.start_index }}</span>
+                        to <span class="font-semibold text-gray-800">{{ page_obj.end_index }}</span>
+                        of <span class="font-semibold text-gray-800">{{ page_obj.paginator.count }}</span> results
+                    </p>
+                </div>
+                <div class="flex-1 flex justify-between sm:justify-end space-x-3">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}"
+                           class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-colors duration-150 ease-in-out">
+                            Previous
+                        </a>
+                    {% endif %}
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}"
+                           class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-colors duration-150 ease-in-out">
+                            Next
+                        </a>
+                    {% endif %}
+                </div>
+            </nav>
+            {% endif %}
+            {# --- End Pagination --- #}
+
+        {% else %}
+            <div class="text-center py-16 sm:py-20">
+                <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.122zM12 15.75h.007v.008H12v-.008z" />
+                </svg>
+                <h3 class="text-xl font-semibold text-gray-800" style="font-family: 'Playfair Display', serif;">No Posts Found</h3>
+                <p class="mt-2 text-md text-gray-600" style="font-family: 'Lato', sans-serif;">
+                    {% if category %}
+                        There are no blog posts in the category "{{ category.name }}" yet.
+                    {% else %}
+                        We're busy crafting new content. Please check back soon for our latest insights!
+                    {% endif %}
+                </p>
+                <div class="mt-8">
+                    <a href="{% url 'LehmanCustomConstruction:blog_list' %}"
+                       class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gray-700 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600 transition-colors duration-150 ease-in-out"
+                       style="font-family: 'Lato', sans-serif;">
+                        &larr; View All Insights
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

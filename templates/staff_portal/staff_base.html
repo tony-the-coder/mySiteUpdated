@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{% if page_title %}{{ page_title }} - {% endif %}Staff Portal - Lehman Custom Construction{% endblock title %}
+
+{% block head_extra %}
+    <script src="https://unpkg.com/htmx.org@latest/dist/htmx.min.js"></script>
+    {{ block.super }}
+{% endblock head_extra %}
+
+{% block content %}
+<div class="flex bg-gray-100 font-sans" style="flex-grow: 1;">
+
+    <aside class="w-64 bg-white shadow-md hidden md:block flex-shrink-0">
+        <div class="p-4 border-b border-gray-200">
+            <h2 class="text-xl font-semibold text-gray-700 text-center">Lehman Staff</h2>
+        </div>
+        <nav class="mt-4 p-2 space-y-1">
+            <a href="{% url 'LehmanCustomConstruction:staff_dashboard' %}"
+               class="flex items-center px-4 py-2 rounded-md hover:bg-gray-200 {% if request.resolver_match.url_name == 'staff_dashboard' %}bg-gray-200{% endif %}"
+               style="color: #374151; cursor: pointer; {% if request.resolver_match.url_name == 'staff_dashboard' %}color: #B08D57; font-weight: 600;{% endif %} text-decoration: none;">
+               Dashboard
+            </a>
+            <a href="{% url 'LehmanCustomConstruction:staff_customer_list' %}"
+               class="flex items-center px-4 py-2 rounded-md hover:bg-gray-200 {% if request.resolver_match.url_name == 'staff_customer_list' or request.resolver_match.url_name == 'staff_customer_detail' %}bg-gray-200{% endif %}"
+               style="color: #374151; cursor: pointer; {% if request.resolver_match.url_name == 'staff_customer_list' or request.resolver_match.url_name == 'staff_customer_detail' %}color: #B08D57; font-weight: 600;{% endif %} text-decoration: none;">
+               Customers
+            </a>
+            <a href="{% url 'LehmanCustomConstruction:staff_project_list' %}"
+               class="flex items-center px-4 py-2 rounded-md hover:bg-gray-200 {% if request.resolver_match.url_name == 'staff_project_list' or request.resolver_match.url_name == 'staff_project_detail' %}bg-gray-200{% endif %}"
+               style="color: #374151; cursor: pointer; {% if request.resolver_match.url_name == 'staff_project_list' or request.resolver_match.url_name == 'staff_project_detail' %}color: #B08D57; font-weight: 600;{% endif %} text-decoration: none;">
+               Projects
+            </a>
+            <a href="{% url 'LehmanCustomConstruction:staff_portfolio_list' %}"
+               class="flex items-center px-4 py-2 rounded-md hover:bg-gray-200 {% if request.resolver_match.url_name == 'staff_portfolio_list' or request.resolver_match.url_name == 'staff_portfolio_add' or request.resolver_match.url_name == 'staff_portfolio_edit' or request.resolver_match.url_name == 'staff_manage_portfolio_images' or request.resolver_match.url_name == 'portfolio_project_detail_staff' %}bg-gray-200{% endif %}"
+               style="color: #374151; cursor: pointer; {% if request.resolver_match.url_name == 'staff_portfolio_list' or request.resolver_match.url_name == 'staff_portfolio_add' or request.resolver_match.url_name == 'staff_portfolio_edit' or request.resolver_match.url_name == 'staff_manage_portfolio_images' or request.resolver_match.url_name == 'portfolio_project_detail_staff' %}color: #B08D57; font-weight: 600;{% endif %} text-decoration: none;">
+               Portfolio Items
+            </a>
+            <a href="{% url 'admin:logout' %}"
+               class="flex items-center px-4 py-2 rounded-md hover:bg-gray-200"
+               style="color: #374151; cursor: pointer; text-decoration: none;">
+               Logout
+            </a>
+        </nav>
+    </aside>
+
+    <div class="flex-1 flex flex-col overflow-hidden">
+        <header class="bg-white shadow-sm p-4 flex justify-between items-center">
+             <h1 class="text-xl font-semibold text-gray-800">{{ page_title|default:"Staff Portal" }}</h1>
+             <div class="text-sm text-gray-600">
+                Welcome, {{ request.user.get_full_name|default:request.user.username }}
+                {# --- ADDED PROFILE LINK HERE --- #}
+                (<a href="{% url 'LehmanCustomConstruction:staff_user_profile' %}" class="text-brand-gold hover:underline">My Profile</a>)
+             </div>
+        </header>
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
+            <div class="container mx-auto px-6 py-8">
+                {% block staff_content %}{% endblock staff_content %}
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock content %}

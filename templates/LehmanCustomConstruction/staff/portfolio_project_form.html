@@ -1,0 +1,168 @@
+{% extends "staff_portal/staff_base.html" %}
+{% load static i18n %}
+
+{% block title %}{{ form_title|default:"Manage Portfolio Project" }} - Staff Portal{% endblock %}
+
+{% block extra_head %}
+    {{ block.super }}
+    {# CKEditor requires form.media for its CSS/JS, ensure it's loaded if form has media #}
+    {% if form.media %}{{ form.media }}{% endif %}
+    <style>
+        /* Basic form field styling - can be customized or rely on global staff styles */
+        .form-field-group {
+            margin-bottom: 1.25rem;
+        }
+        .form-label {
+            display: block; margin-bottom: 0.25rem; font-size: 0.875rem;
+            line-height: 1.25rem; font-weight: 500; color: #374151;
+        }
+        .form-help-text {
+            margin-top: 0.25rem; font-size: 0.75rem; color: #6b7280;
+        }
+        .form-errors {
+            margin-top: 0.25rem;
+        }
+        .form-errors li, .form-errors p {
+            font-size: 0.75rem; color: #dc2626; /* text-red-600 */
+        }
+    </style>
+{% endblock extra_head %}
+
+{% block staff_content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl md:text-3xl font-semibold text-gray-800 mb-6">
+        {{ form_title|default:"Manage Portfolio Project" }}
+    </h1>
+
+    {% if messages %}
+        <div class="mb-6 space-y-3">
+            {% for message in messages %}
+                <div class="p-4 rounded-md shadow-sm
+                    {% if message.tags == 'success' %}bg-green-50 border border-green-300 text-green-700
+                    {% elif message.tags == 'error' %}bg-red-50 border border-red-300 text-red-700
+                    {% elif message.tags == 'info' %}bg-blue-50 border border-blue-300 text-blue-700
+                    {% else %}bg-gray-50 border border-gray-300 text-gray-700{% endif %}"
+                     role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="post" action="" enctype="multipart/form-data" class="bg-white shadow-xl rounded-lg p-6 md:p-8" novalidate>
+        {% csrf_token %}
+
+        <div class="space-y-6">
+            <fieldset class="border border-gray-200 p-4 md:p-6 rounded-lg shadow-sm">
+                <legend class="text-xl font-semibold text-brand-charcoal px-2 mb-4">Project Details</legend>
+
+                {% if form.non_field_errors %}
+                    <div class="bg-red-50 border-l-4 border-red-400 text-red-700 p-4 mb-5" role="alert">
+                        <p class="font-bold">{% trans "Please correct the errors below:" %}</p>
+                        <ul class="list-disc list-inside ml-4">
+                            {% for error in form.non_field_errors %}<li>{{ error }}</li>{% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+                    {% for field in form %}
+                        {# This loop renders fields from StaffPortfolioProjectForm #}
+                        <div class="form-field-group {% if field.name == 'details' or field.name == 'short_description' %}md:col-span-2{% else %}md:col-span-1{% endif %}">
+                            <label for="{{ field.id_for_label }}" class="form-label">
+                                {{ field.label_tag }}
+                                {% if field.field.required %}<span class="text-red-500 font-semibold">*</span>{% endif %}
+                            </label>
+                            {{ field }} {# Uses widgets from forms.py #}
+                            {% if field.help_text %}<p class="form-help-text mt-1">{{ field.help_text|safe }}</p>{% endif %}
+                            {% if field.errors %}
+                                <div class="form-errors mt-1">
+                                    {% for error in field.errors %}<p class="text-xs text-red-600">{{ error }}</p>{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </fieldset>
+
+            <fieldset class="border border-gray-200 p-4 md:p-6 rounded-lg shadow-sm">
+                <legend class="text-xl font-semibold text-brand-charcoal px-2 mb-4">Upload Gallery Images</legend>
+                <p class="text-sm text-gray-600 mb-3">
+                    {% trans "Upload all images for the project gallery here. You will be able to add captions, set display order, and choose a featured image on the next page." %}
+                </p>
+                <div class="form-field-group">
+                    <label for="id_new_images" class="form-label">
+                        {% trans "Select Gallery Images" %}
+                    </label>
+                    <input type="file" name="new_images" id="id_new_images" multiple
+                           accept="image/png, image/jpeg, image/webp, image/gif"
+                           class="block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none
+                                  file:mr-4 file:py-2 file:px-4
+                                  file:rounded-l-lg file:border-0
+                                  file:text-sm file:font-semibold
+                                  file:bg-brand-gold file:text-white
+                                  hover:file:bg-brand-gold-dark
+                                  focus:ring-2 focus:ring-offset-2 focus:ring-brand-gold">
+                    <p class="form-help-text mt-1">{% trans "You can select multiple image files." %}</p>
+                    <div id="new-images-preview-container" class="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                        {# JavaScript will populate this #}
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-end space-x-3">
+                {# ***** THIS IS THE CORRECTED CANCEL LINK ***** #}
+                <a href="{% url 'LehmanCustomConstruction:staff_portfolio_list' %}"
+                   class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    {% trans "Cancel" %}
+                </a>
+                <button type="submit"
+                        class="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-semibold text-white bg-brand-gold hover:bg-brand-gold-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-gold">
+                    {% if project %}
+                        {% trans "Save Details & Upload Images" %}
+                    {% else %}
+                        {% trans "Create Project & Upload Images" %}
+                    {% endif %}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock staff_content %}
+
+{% block extra_scripts %}
+    {{ block.super }}
+    {% if form.media %}{{ form.media }}{% endif %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const newImagesInput = document.getElementById('id_new_images');
+            const previewContainer = document.getElementById('new-images-preview-container');
+
+            if (newImagesInput && previewContainer) {
+                newImagesInput.addEventListener('change', function(event) {
+                    previewContainer.innerHTML = ''; // Clear previous previews
+                    if (event.target.files && event.target.files.length > 0) {
+                        for (const file of event.target.files) {
+                            if (file.type.startsWith('image/')) {
+                                const reader = new FileReader();
+                                reader.onload = function(e) {
+                                    const imgWrapper = document.createElement('div');
+                                    imgWrapper.classList.add('relative', 'w-full', 'pb-[100%]'); // Square aspect ratio
+
+                                    const img = document.createElement('img');
+                                    img.src = e.target.result;
+                                    img.alt = file.name; // Use file name for alt text
+                                    img.classList.add('absolute', 'inset-0', 'h-full', 'w-full', 'object-cover', 'rounded-md', 'shadow-md', 'border', 'border-gray-200');
+
+                                    imgWrapper.appendChild(img);
+                                    previewContainer.appendChild(imgWrapper);
+                                }
+                                reader.readAsDataURL(file);
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+{% endblock extra_scripts %}

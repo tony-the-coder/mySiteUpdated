@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us - {{ block.super }}{% endblock title %}
+
+{% block content %}
+<div class="bg-background py-16 sm:py-24">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center mb-12 sm:mb-16">
+            <h1 class="text-4xl font-bold tracking-tight text-primary sm:text-5xl font-serif">
+                Get In Touch
+            </h1>
+            <p class="mt-4 text-xl text-secondary font-sans">
+                Have questions or ready to start planning? Send us a message using the form below.
+            </p>
+        </div>
+
+        {% if messages %}
+        <div class="mb-6">
+            {% for message in messages %}
+            <div class="p-4 rounded-md {% if message.tags == 'success' %}bg-green-100 border border-green-300 text-green-800{% elif message.tags == 'error' %}bg-red-100 border border-red-300 text-red-800{% else %}bg-yellow-100 border border-yellow-300 text-yellow-800{% endif %}" role="alert">
+               {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'LehmanCustomConstruction:contact_us' %}" novalidate>
+            {% csrf_token %}
+
+            {% for field in form %}
+            <div class="relative z-0 w-full mb-8 group">
+                {{ field }}
+                <label for="{{ field.id_for_label }}"
+                       class="absolute text-sm text-secondary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-accent rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto font-sans">
+                    {{ field.label }}
+                    {% if field.field.required %}*{% endif %}
+                </label>
+                {% if field.errors %}
+                    <div class="text-red-600 text-xs mt-1">
+                        {{ field.errors|striptags }}
+                    </div>
+                {% endif %}
+                 {% if field.help_text %}
+                     <p class="mt-1 text-xs text-gray-500">{{ field.help_text|safe }}</p>
+                 {% endif %}
+            </div>
+            {% endfor %}
+
+            {% if form.non_field_errors %}
+                <div class="text-red-600 text-sm mb-4">
+                    {{ form.non_field_errors|striptags }}
+                </div>
+            {% endif %}
+
+            <div class="mt-10">
+                <button type="submit"
+                        class="w-full rounded-md bg-accent px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent font-sans">
+                    Send Message
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock content %}
