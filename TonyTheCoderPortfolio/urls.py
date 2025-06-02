@@ -1,21 +1,17 @@
-# LehmanConstructionDjangoD/urls.py
+# TonyTheCoderPortfolio/urls.py
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-admin.site.site_header = "Lehman Custom Construction Admin"
-admin.site.site_title = "Lehman Admin Portal"
-admin.site.index_title = "Welcome to the Lehman Admin Portal"
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')), # <-- Standard auth URLs
-    path('qbo/', include('qbo_integration.urls')),
-    path('ckeditor/', include('ckeditor_uploader.urls')),
-path('', include('portfolio_app.urls', namespace='portfolio_app')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    # path('qbo/', include('qbo_integration.urls')), # If keeping QBO
+    path('ckeditor/', include('ckeditor_uploader.urls')), # If keeping CKEditor
+    path('', include('portfolio_app.urls', namespace='portfolio_app')), # Main app
 ]
 
-# Serve Media files in Development
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) # If using django-vite in dev, this might not be strictly needed for Vite assets but good for other static files

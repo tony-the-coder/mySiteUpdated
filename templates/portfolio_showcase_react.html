@@ -1,0 +1,48 @@
+{# portfolio_app/templates/portfolio_app/portfolio_showcase_react.html #}
+{% extends "base.html" %}
+{% load django_vite %}
+{% load django_vite %}
+{% load static %}
+{% load django_vite %} {# Load the django-vite template tags #}
+
+{% block title %}{{ page_title|default:"My Coding Portfolio" }} - Tony the Coder{% endblock title %}
+
+{% block meta_description %}
+    {# You'll pass 'meta_description' from your portfolio_showcase_react view in views.py #}
+    {{ meta_description|default:"Showcase of coding projects by Tony the Coder, featuring Python, Django, React, and AI." }}
+{% endblock meta_description %}
+
+{# If your React app will render the entire page content including its own hero, you can remove this block #}
+{% block hero_section %}
+    {# This block can be left empty if React handles the entire portfolio page content #}
+    {# Or, you could have a minimal Django-rendered title here if desired #}
+{% endblock hero_section %}
+
+{% block breadcrumbs_block %}
+    {# React will likely handle its own navigation/structure for the portfolio page, #}
+    {# so Django breadcrumbs might not be needed here. #}
+    {% comment %}
+    {% if breadcrumbs %}
+        {% include 'partials/_breadcrumbs.html' with breadcrumbs=breadcrumbs %}
+    {% endif %}
+    {% endcomment %}
+{% endblock breadcrumbs_block %}
+
+{% block content %}
+{# This is the crucial part: the div where your React app will mount. #}
+{# The ID 'react-portfolio-root' should match what you use in your React entry point (main.jsx). #}
+<div id="react-portfolio-root">
+    {# Optional: You can put a loading message/spinner here that React will replace #}
+    {# For example, styled with Tailwind: #}
+    <div class="flex justify-center items-center min-h-[60vh]">
+        <p class="text-xl text-gray-500 animate-pulse">Loading Portfolio Projects...</p>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+    {{ block.super }}
+    {# This tells django-vite to include the necessary JS and CSS bundles #}
+    {# It points to your Vite project's main entry file in `frontend/src/` #}
+    {% vite_asset 'src/main.jsx' %}
+{% endblock extra_js %}
