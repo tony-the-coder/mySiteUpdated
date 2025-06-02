@@ -1,21 +1,16 @@
-{% extends 'base.html' %}
-{% load static %}
-{% load i18n %}
+{% extends "base.html" %}
+{% load static i18n %}
 
-{% block title %}{{ category.name|default:"Category" }} - Blog - Lehman Custom Construction{% endblock title %}
+{% block title %}{{ category.name|default:"Category" }} - Tony's Tech Blog{% endblock title %}
 
 {% block meta_description %}
-    {# The meta_description variable is passed from the view #}
-    {{ meta_description|default:"Explore blog posts by category from Lehman Custom Construction." }}
+    {# The meta_description variable is passed from the view in views.py #}
+    {{ meta_description|default:"Explore blog posts by category from Tony the Coder." }}
 {% endblock meta_description %}
 
 {% block hero_section %}
-{# --- Hero Section for Blog Category List --- #}
-{# This hero section is the first content, so it will appear under the fixed navbar. #}
-{# The inner div needs top padding to push text content below the navbar's initial height. #}
-{# Adjust pt-XX based on your actual navbar's taller height. #}
 <section aria-labelledby="category-hero-title-{{ category.slug|default:'default' }}" class="relative bg-gradient-to-br from-gray-50 via-stone-100 to-blue-50 text-gray-700 border-b border-gray-200">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20 md:py-28 lg:py-32 pt-32 md:pt-36 lg:pt-44"> {# CRITICAL: Adjust top padding for navbar #}
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20 md:py-28 lg:py-32 pt-32 md:pt-36 lg:pt-44">
         <p class="text-sm font-semibold uppercase tracking-wider text-brand-gold mb-2" style="font-family: var(--font-body);">
             Blog Category
         </p>
@@ -36,14 +31,14 @@
 {% endblock hero_section %}
 
 {% block breadcrumbs_block %}
-    {# This block is defined in base.html, appears after hero_section #}
     {% if breadcrumbs %}
-        {% include 'partials/_breadcrumbs.html' %}
+        {# Breadcrumbs are generated in views.py and passed in context #}
+        {# Ensure reverse() calls in views.py use 'portfolio_app:...' #}
+        {% include 'partials/_breadcrumbs.html' with breadcrumbs=breadcrumbs %}
     {% endif %}
 {% endblock breadcrumbs_block %}
 
 {% block content %}
-{# Main Content Area for Blog Posts in this Category. Breadcrumbs are now in their own block above. #}
 <div class="bg-white py-12 sm:py-16 lg:py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -53,7 +48,7 @@
             </div>
             <div class="grid gap-8 sm:gap-10 md:gap-12 lg:gap-14 md:grid-cols-2 lg:grid-cols-3">
                 {% for post in blog_posts %}
-                    {# Ensure _blog_post_card.html is styled for a light theme and uses brand colors/fonts #}
+                    {# _blog_post_card.html should also be updated with portfolio_app namespace #}
                     {% include 'partials/_blog_post_card.html' with post=post light_theme=True %}
                 {% endfor %}
             </div>
@@ -96,7 +91,7 @@
                     There are currently no blog posts published in the "<strong>{{ category.name|default:"this" }}</strong>" category.
                 </p>
                 <div class="mt-8">
-                    <a href="{% url 'LehmanCustomConstruction:blog_list' %}"
+                    <a href="{% url 'portfolio_app:blog_list' %}" {# UPDATED NAMESPACE #}
                        class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-brand-gold hover:bg-brand-gold-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-gold transition-colors duration-150 ease-in-out"
                        style="font-family: var(--font-body);">
                         &larr; Explore All Blog Posts
@@ -106,7 +101,7 @@
         {% endif %}
 
         <div class="mt-12 sm:mt-16 pt-8 text-center {% if blog_posts and is_paginated or not blog_posts %}border-t border-gray-200{% endif %}">
-            <a href="{% url 'LehmanCustomConstruction:blog_list' %}"
+            <a href="{% url 'portfolio_app:blog_list' %}" {# UPDATED NAMESPACE #}
                class="inline-flex items-center text-base font-medium rounded-md text-brand-gold hover:text-brand-gold-light transition-colors duration-150 ease-in-out group"
                style="font-family: var(--font-body);">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 transform transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -121,7 +116,5 @@
 
 {% block extra_head %}
     {{ block.super }}
-    {# The meta_description variable is passed from the view and has default logic there. #}
-    {# Providing a simpler default here just in case meta_description is empty from view. #}
-    <meta name="description" content="{{ meta_description|default:'Explore blog posts by category from Lehman Custom Construction.' }}">
+    <meta name="description" content="{{ meta_description|default:'Explore blog posts by category from Tony the Coder.' }}">
 {% endblock extra_head %}

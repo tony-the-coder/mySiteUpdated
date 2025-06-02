@@ -1,92 +1,116 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}About Us - Lehman Custom Construction{% endblock %}
+{% block title %}About Me - Tony the Coder{% endblock %}
 
-{# Hero Section for About Page #}
+{% block meta_description %}Learn more about Tony the Coder, a passionate Full-Stack Developer specializing in Python, Django, React, and AI-driven solutions. Discover my journey, skills, and development philosophy.{% endblock meta_description %}
+
+{# Hero Section for About Me Page #}
 {% block hero_section %}
-{# This uses your .page-header-bg class for basic structure and then an inline style for the specific image #}
-<section class="page-header-bg" style="background-image: url('{% static 'images/about_hero_placeholder.jpg' %}');">
-    {# REMEMBER: You MUST replace 'images/about_hero_placeholder.jpg' with a real image path in your static files #}
-    {# This image should be a high-quality photo of a custom home or a relevant architectural shot #}
-    <div class="absolute inset-0 bg-black opacity-50 z-0"></div> {# Darkening overlay for text readability #}
+<section class="page-header-bg" style="background-image: url('{% static 'portfolio_app/images/about_hero_coder.jpg' %}');">
+    {# REMEMBER: Create a 'portfolio_app/static/portfolio_app/images/' directory #}
+    {# and add an image like 'about_hero_coder.jpg' (e.g., abstract tech, workspace, or a subtle pattern) #}
+    <div class="absolute inset-0 bg-brand-charcoal opacity-60 z-0"></div> {# Darkening overlay for text readability #}
     <div class="relative z-10 p-6 text-center">
-        {# .page-title class comes from your input.css. Animations can be added via HTML if desired #}
         <h1 class="page-title animate-fade-in-down">
-            Our Story & Philosophy
+            About Tony the Coder
         </h1>
     </div>
 </section>
 {% endblock hero_section %}
 
+{% block breadcrumbs_block %}
+    {% if breadcrumbs %}
+        {# Ensure your views.py passes the correct breadcrumbs for this page #}
+        {# Example breadcrumbs for about_us view:
+           breadcrumbs = [
+               {'name': 'Home', 'url': reverse('portfolio_app:home')},
+               {'name': 'About Me', 'is_active': True},
+           ]
+        #}
+        {% include 'partials/_breadcrumbs.html' with breadcrumbs=breadcrumbs %}
+    {% endif %}
+{% endblock breadcrumbs_block %}
+
 {% block content %}
-<div class="bg-brand-white py-16 lg:py-24"> {# Using bg-brand-white from your theme for the main content area bg #}
+<div class="bg-brand-white py-16 lg:py-24">
     <div class="container mx-auto px-6 lg:px-8">
 
         {# Introduction Section #}
         <section class="max-w-3xl mx-auto text-center mb-16 lg:mb-24" data-aos="fade-up">
-            <h2 class="section-heading"> {# .section-heading from your input.css #}
-                Building More Than Homes
+            <h2 class="section-heading">
+                More Than Just Code
             </h2>
-            <p class="section-subheading mb-6"> {# .section-subheading from your input.css #}
-                At Lehman Custom Construction, we believe a home is the most significant expression of a family’s life and values. It's where memories are forged, futures are dreamt, and legacies begin. For [Number] years, we have dedicated ourselves to translating your unique aspirations into impeccably crafted custom homes, built with an unwavering commitment to quality, transparent partnership, and enduring style.
+            <p class="section-subheading mb-6">
+                Hello! I'm Tony, a dedicated developer passionate about crafting elegant and effective solutions to complex problems. My journey into technology is driven by a curiosity for how things work and a desire to build applications that make a real impact. I thrive on learning new technologies and continuously refining my skills in web development and artificial intelligence.
             </p>
             <p class="section-subheading">
-                Our philosophy is simple: listen intently, design thoughtfully, and build with unparalleled precision. We understand that building a custom home is a deeply personal journey, and we are honored to be your trusted guide every step of the way.
+                My approach is rooted in clear communication, collaborative problem-solving, and a commitment to writing clean, maintainable code. I believe that the best results come from understanding the core needs of a project and applying the right tools and techniques to achieve them.
             </p>
         </section>
 
-        {# The Lehman Approach Section #}
+        {# My Approach / Skills Section #}
         <section class="max-w-4xl mx-auto mb-16 lg:mb-24">
             <h2 class="section-heading text-center mb-12" data-aos="fade-up">
-                The Lehman Approach
+                My Development Philosophy
             </h2>
             <div class="space-y-10">
-                {# Feature 1 #}
+                {# Feature 1: Problem Solving / Clean Code #}
                 <div class="flex flex-col md:flex-row items-center text-center md:text-left" data-aos="fade-up" data-aos-delay="100">
                     <div class="md:w-1/4 mb-6 md:mb-0 md:mr-8 flex-shrink-0 flex justify-center md:justify-start">
                         <div class="text-brand-gold text-5xl md:text-6xl">
-                            <i class="fas fa-drafting-compass"></i> {# Example Font Awesome Icon - ensure Font Awesome is linked in base.html #}
+                            {# Replace with a relevant SVG icon for "Problem Solving" or "Code Quality" #}
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 mx-auto md:mx-0">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m0 0l3 2.25M3 12h18M3 12l3-2.25M3 12l3 2.25M17.25 7.5l3 2.25-3 2.25m0 0l3 2.25M21 12h-3.75M21 12l-3-2.25M21 12l-3 2.25M15 6.75l-3 2.25m0 0l-3-2.25m3 2.25V15m-3-2.25V15m6-6v6.75" />
+                            </svg>
                         </div>
                     </div>
                     <div class="md:w-3/4">
-                        <h3 class="font-heading text-2xl text-brand-charcoal font-medium mb-3">Visionary Design, Flawless Execution</h3>
+                        <h3 class="font-heading text-2xl text-brand-charcoal font-medium mb-3">Clean Code & Solutions</h3>
                         <p class="font-body text-brand-gray-text leading-relaxed">
-                            We collaborate closely with you and visionary architects, ensuring every detail of your home is a true reflection of your lifestyle and aesthetic preferences. From initial concept to final walkthrough, our meticulous project management guarantees a seamless and predictable process, delivering on time and on vision.
-                        </p>
-                    </div>
-                </div>
-
-                <hr class="my-10 border-brand-gray-medium data-aos="fade-up""> {# border-brand-gray-medium from your theme #}
-
-                {# Feature 2 #}
-                <div class="flex flex-col md:flex-row-reverse items-center text-center md:text-left" data-aos="fade-up" data-aos-delay="200">
-                    <div class="md:w-1/4 mb-6 md:mb-0 md:ml-8 flex-shrink-0 flex justify-center md:justify-end">
-                        <div class="text-brand-gold text-5xl md:text-6xl">
-                            <i class="fas fa-gem"></i> {# Example Font Awesome Icon #}
-                        </div>
-                    </div>
-                    <div class="md:w-3/4">
-                        <h3 class="font-heading text-2xl text-brand-charcoal font-medium mb-3">Uncompromising Quality & Craftsmanship</h3>
-                        <p class="font-body text-brand-gray-text leading-relaxed">
-                            Our reputation is built upon a foundation of superior craftsmanship. We partner with the finest artisans and utilize only premium materials, ensuring that your home is not only breathtakingly beautiful but also built to endure for generations. Every joint, every finish, every element is executed with precision and care.
+                            I focus on writing well-structured, readable, and maintainable code. I believe in thoroughly understanding problems to deliver efficient and robust solutions that stand the test of time.
                         </p>
                     </div>
                 </div>
 
                 <hr class="my-10 border-brand-gray-medium" data-aos="fade-up">
 
-                {# Feature 3 #}
-                <div class="flex flex-col md:flex-row items-center text-center md:text-left" data-aos="fade-up" data-aos-delay="300">
-                    <div class="md:w-1/4 mb-6 md:mb-0 md:mr-8 flex-shrink-0 flex justify-center md:justify-start">
+                {# Feature 2: Full-Stack Expertise #}
+                <div class="flex flex-col md:flex-row-reverse items-center text-center md:text-left" data-aos="fade-up" data-aos-delay="200">
+                    <div class="md:w-1/4 mb-6 md:mb-0 md:ml-8 flex-shrink-0 flex justify-center md:justify-end">
                         <div class="text-brand-gold text-5xl md:text-6xl">
-                             <i class="fas fa-handshake"></i> {# Example Font Awesome Icon #}
+                            {# Replace with a relevant SVG icon for "Full-Stack" or "Web Tech" #}
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 mx-auto md:mx-0">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+                            </svg>
                         </div>
                     </div>
                     <div class="md:w-3/4">
-                        <h3 class="font-heading text-2xl text-brand-charcoal font-medium mb-3">A Partnership Built on Trust</h3>
+                        <h3 class="font-heading text-2xl text-brand-charcoal font-medium mb-3">Full-Stack Development</h3>
                         <p class="font-body text-brand-gray-text leading-relaxed">
-                            We believe that open communication and transparency are paramount to a successful partnership. Throughout the construction journey, you will be kept informed and involved, ensuring your voice is heard and your expectations are not just met, but exceeded. Your peace of mind is our priority.
+                            With skills in both backend (Python, Django, Flask) and frontend (JavaScript, React, HTML, CSS, Tailwind), I can contribute to all layers of application development, ensuring seamless integration and a great user experience.
+                        </p>
+                    </div>
+                </div>
+
+                <hr class="my-10 border-brand-gray-medium" data-aos="fade-up">
+
+                {# Feature 3: AI & Continuous Learning #}
+                <div class="flex flex-col md:flex-row items-center text-center md:text-left" data-aos="fade-up" data-aos-delay="300">
+                    <div class="md:w-1/4 mb-6 md:mb-0 md:mr-8 flex-shrink-0 flex justify-center md:justify-start">
+                        <div class="text-brand-gold text-5xl md:text-6xl">
+                             {# Replace with a relevant SVG icon for "AI" or "Innovation" #}
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 mx-auto md:mx-0">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5M19.5 8.25h-1.5m-15 3.75h1.5m15 0h1.5M12 12a5.25 5.25 0 00-5.25 5.25H12v-5.25z" />
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M12 12a5.25 5.25 0 015.25 5.25H12v-5.25z" />
+                               <path stroke-linecap="round" stroke-linejoin="round" d="M12 12V6.75m0 0a5.25 5.25 0 00-5.25-5.25H6.75V12m5.25-5.25a5.25 5.25 0 015.25-5.25h.008v5.25M12 12h.008v5.25A5.25 5.25 0 0112 22.5h-5.25v-5.25M12 12h5.25V6.75A5.25 5.25 0 0012 1.5h-.008V12z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="md:w-3/4">
+                        <h3 class="font-heading text-2xl text-brand-charcoal font-medium mb-3">AI & Continuous Learning</h3>
+                        <p class="font-body text-brand-gray-text leading-relaxed">
+                            I'm actively expanding my knowledge in Artificial Intelligence and Machine Learning, particularly Generative AI, to build smarter and more innovative applications. I am committed to lifelong learning and staying current with emerging technologies.
                         </p>
                     </div>
                 </div>
@@ -96,13 +120,13 @@
         {# Call to Action Section #}
         <section class="text-center pt-10" data-aos="fade-up">
             <h3 class="font-heading text-2xl md:text-3xl text-brand-charcoal font-medium mb-6">
-                Ready to Create Your Legacy Home?
+                Ready to Discuss Your Next Project?
             </h3>
             <p class="section-subheading mb-8 max-w-xl mx-auto">
-                Let's discuss how Lehman Custom Construction can bring your vision to life with the artistry and dedication it deserves.
+                Whether it's a web application, an AI integration, or a complex backend system, I'm excited to hear about your ideas.
             </p>
-            <a href="{% url 'LehmanCustomConstruction:contact_us' %}" class="cta-button-primary"> {# .cta-button-primary from your input.css #}
-                Schedule a Consultation
+            <a href="{% url 'portfolio_app:contact_us' %}" class="cta-button-primary">
+                Get in Touch
             </a>
         </section>
 
