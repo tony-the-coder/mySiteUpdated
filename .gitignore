@@ -7,3 +7,7 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+/db.sqlite3
+/frontend/eslint.config.js
+/frontend/src/assets/react.svg
+/frontend/public/vite.svg

@@ -8,7 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     # path('qbo/', include('qbo_integration.urls')), # If keeping QBO
-    path('ckeditor/', include('ckeditor_uploader.urls')), # If keeping CKEditor
+path('ckeditor5/', include('django_ckeditor_5.urls')), # For CKEditor 5
     path('', include('portfolio_app.urls', namespace='portfolio_app')), # Main app
 ]
 

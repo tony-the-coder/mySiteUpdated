@@ -1,54 +1,58 @@
 {% load static %}
 <nav x-data="{ open: false, scrolled: false }"
-     @scroll.window="scrolled = (window.pageYOffset > 50)" {# Adjust 50px threshold as needed #}
+     @scroll.window="scrolled = (window.pageYOffset > 50)"
      @resize.window="if (window.innerWidth >= 1024) open = false"
      class="fixed w-full top-0 z-[1000] transition-all duration-300 ease-in-out"
      :class="{
-        'bg-brand-white shadow-lg !py-3': scrolled,      {# Scrolled: Opaque white bg, shorter padding #}
-        'bg-transparent !py-6': !scrolled               {# Unscrolled: Transparent bg, taller padding #}
+        'bg-brand-white shadow-lg !py-3': scrolled,
+        'bg-transparent !py-6': !scrolled
      }">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16"> {# Base height for content alignment #}
+        <div class="flex items-center justify-between h-16">
             <div class="flex-shrink-0">
-                <a href="{% url 'LehmanCustomConstruction:home' %}" class="text-3xl font-bold"
+                {# Option 1: Text Logo #}
+                <a href="{% url 'portfolio_app:home' %}" class="text-3xl font-bold"
                    style="font-family: var(--font-heading);"
-                   {# Logo text color - always dark for visibility. Could be a specific brand color. #}
-                   {# Your 'text-brand-red-border' is sienna, which is dark. 'text-brand-charcoal' is also dark. #}
-                   {# Choose one that fits best for the logo in both states, or make it conditional if truly needed. #}
-                   :class="scrolled ? 'text-brand-red-border' : 'text-brand-charcoal'">
-                    Lehman
+                   {# Update your brand colors in input.css for --color-brand-primary or similar #}
+                   :class="scrolled ? 'text-brand-gold' : 'text-brand-charcoal'"> {# Or your chosen brand colors #}
+                    Tony the Coder
                 </a>
+                {# Option 2: Image Logo (Uncomment and use if you have one) #}
+                {# <a href="{% url 'portfolio_app:home' %}"> #}
+                {#    <img class="h-10 w-auto" src="{% static 'images/your-logo-tony-the-coder.png' %}" alt="Tony the Coder Logo"> #}
+                {#    #}
+                {# </a> #}
             </div>
 
-            <div class="hidden lg:flex items-center space-x-2"> {# Reduced space slightly #}
-                {# Nav links use .nav-link (which is text-brand-charcoal) and we add text-lg for size. #}
-                {# Active state .nav-link-active provides the gold color. #}
-                <a href="{% url 'LehmanCustomConstruction:home' %}"
+            <div class="hidden lg:flex items-center space-x-2">
+                <a href="{% url 'portfolio_app:home' %}"
                    class="nav-link text-lg {% if request.resolver_match.url_name == 'home' %}nav-link-active{% endif %}">Home</a>
-                <a href="{% url 'LehmanCustomConstruction:about_us' %}"
-                   class="nav-link text-lg {% if request.resolver_match.url_name == 'about_us' %}nav-link-active{% endif %}">About Us</a>
-                <a href="{% url 'LehmanCustomConstruction:portfolio_list' %}"
-                   class="nav-link text-lg {% if request.resolver_match.url_name == 'portfolio_list' %}nav-link-active{% endif %}">Portfolio</a>
-                <a href="{% url 'LehmanCustomConstruction:blog_list' %}"
-                   class="nav-link text-lg {% if request.resolver_match.url_name == 'blog_list' %}nav-link-active{% endif %}">Blog</a>
+                <a href="{% url 'portfolio_app:about_us' %}"
+                   class="nav-link text-lg {% if request.resolver_match.url_name == 'about_us' %}nav-link-active{% endif %}">About</a>
+                {# This will link to the page that hosts your React portfolio #}
+                <a href="{% url 'portfolio_app:portfolio_showcase_react' %}"
+                   class="nav-link text-lg {% if request.resolver_match.url_name == 'portfolio_showcase_react' %}nav-link-active{% endif %}">Portfolio</a>
+                <a href="{% url 'portfolio_app:blog_list' %}"
+                   class="nav-link text-lg {% if request.resolver_match.url_name == 'blog_list' or request.resolver_match.url_name == 'blog_post_detail' or request.resolver_match.url_name == 'blog_category_list' %}nav-link-active{% endif %}">Blog</a>
 
                 {% if user.is_authenticated and user.is_staff %}
-                    <a href="{% url 'LehmanCustomConstruction:staff_dashboard' %}"
-                       class="nav-link text-lg">Staff Portal</a>
+                    {# This should point to your staff dashboard if you keep it #}
+                    <a href="{% url 'portfolio_app:staff_dashboard' %}"
+                       class="nav-link text-lg {% if 'staff' in request.resolver_match.view_name %}nav-link-active{% endif %}">Admin Portal</a>
                 {% endif %}
 
-                {# "Get a Quote" Button - simplified by using your .nav-link-button component classes #}
-                <a href="{% url 'LehmanCustomConstruction:contact_us' %}"
-                   class="ml-5 text-lg" {# text-lg to match other nav links, or keep text-sm from your component #}
+                <a href="{% url 'portfolio_app:contact_us' %}"
+                   class="ml-5 text-lg"
                    :class="scrolled ? 'nav-link-button' : 'nav-link-button-secondary'">
-                    Get a Quote
+                    Contact Me
                 </a>
             </div>
 
-            {# Mobile Menu Button #}
+            {# Mobile Menu Button - text color needs to adapt to scrolled state for visibility #}
             <div class="lg:hidden flex items-center">
                 <button @click="open = !open" type="button"
-                        class="p-2 rounded-md text-brand-charcoal focus:outline-none focus:ring-2 focus:ring-brand-gold focus:ring-inset"
+                        class="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-gold focus:ring-inset"
+                        :class="scrolled ? 'text-brand-charcoal' : 'text-brand-white'"
                         aria-controls="mobile-menu" :aria-expanded="open.toString()">
                     <span class="sr-only">Open main menu</span>
                     <i class="fas text-2xl" :class="{'fa-times': open, 'fa-bars': !open}"></i>
@@ -66,23 +70,22 @@
          x-transition:leave-start="opacity-100 translate-y-0"
          x-transition:leave-end="opacity-0 -translate-y-4"
          class="lg:hidden absolute w-full shadow-xl"
-         :class="scrolled ? 'bg-brand-white text-brand-charcoal' : 'bg-brand-charcoal text-brand-white'" {# Unscrolled mobile menu: dark bg, light text #}
+         :class="scrolled ? 'bg-brand-white text-brand-charcoal' : 'bg-brand-charcoal text-brand-white'"
          id="mobile-menu"
          @click.away="open = false">
         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {# Mobile nav links use .mobile-nav-link. Text color is handled by the panel's class or link's own class. #}
-            {# Added text-lg to mobile links as well for consistency if desired. #}
-            <a href="{% url 'LehmanCustomConstruction:home' %}" class="mobile-nav-link text-lg {% if request.resolver_match.url_name == 'home' %}mobile-nav-link-active{% endif %}">Home</a>
-            <a href="{% url 'LehmanCustomConstruction:about_us' %}" class="mobile-nav-link text-lg {% if request.resolver_match.url_name == 'about_us' %}mobile-nav-link-active{% endif %}">About Us</a>
-            <a href="{% url 'LehmanCustomConstruction:portfolio_list' %}" class="mobile-nav-link text-lg {% if request.resolver_match.url_name == 'portfolio_list' %}mobile-nav-link-active{% endif %}">Portfolio</a>
-            <a href="{% url 'LehmanCustomConstruction:blog_list' %}" class="mobile-nav-link text-lg {% if request.resolver_match.url_name == 'blog_list' %}mobile-nav-link-active{% endif %}">Blog</a>
+            <a href="{% url 'portfolio_app:home' %}" class="mobile-nav-link text-lg {% if request.resolver_match.url_name == 'home' %}mobile-nav-link-active{% endif %}">Home</a>
+            <a href="{% url 'portfolio_app:about_us' %}" class="mobile-nav-link text-lg {% if request.resolver_match.url_name == 'about_us' %}mobile-nav-link-active{% endif %}">About</a>
+            <a href="{% url 'portfolio_app:portfolio_showcase_react' %}" class="mobile-nav-link text-lg {% if request.resolver_match.url_name == 'portfolio_showcase_react' %}mobile-nav-link-active{% endif %}">Portfolio</a>
+            <a href="{% url 'portfolio_app:blog_list' %}" class="mobile-nav-link text-lg {% if request.resolver_match.url_name == 'blog_list' or request.resolver_match.url_name == 'blog_post_detail' or request.resolver_match.url_name == 'blog_category_list' %}mobile-nav-link-active{% endif %}">Blog</a>
             {% if user.is_authenticated and user.is_staff %}
-                <a href="{% url 'LehmanCustomConstruction:staff_dashboard' %}" class="mobile-nav-link text-lg">Staff Portal</a>
+                <a href="{% url 'portfolio_app:staff_dashboard' %}" class="mobile-nav-link text-lg {% if 'staff' in request.resolver_match.view_name %}mobile-nav-link-active{% endif %}">Admin Portal</a>
             {% endif %}
-            <a href="{% url 'LehmanCustomConstruction:contact_us' %}"
-               class="mt-3 text-lg" {# Use text-lg or text-base as per your component for button text #}
-               :class="scrolled ? 'mobile-nav-link-button' : 'mobile-nav-link-button-secondary !text-brand-charcoal !bg-brand-gold hover:!bg-brand-gold-light'"> {# Ensure unscrolled mobile button is styled correctly #}
-                Get a Quote
+            <a href="{% url 'portfolio_app:contact_us' %}"
+               class="mt-3 text-lg"
+               {# For mobile, always use a prominent button style regardless of scroll #}
+               :class="scrolled ? 'mobile-nav-link-button' : 'mobile-nav-link-button !text-brand-charcoal !bg-brand-gold hover:!bg-brand-gold-light'">
+                Contact Me
             </a>
         </div>
     </div>

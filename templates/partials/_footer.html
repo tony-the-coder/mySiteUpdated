@@ -1,74 +1,74 @@
 {% load static %}
 
-{# Use Primary color for background, Background (Off-white) or light grays for text #}
-<footer class="bg-primary text-gray-300 border-t border-gray-700 mt-16 font-sans"> {# Default font-sans #}
-    <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+<footer class="bg-brand-charcoal text-gray-300 border-t border-gray-700 mt-16 font-sans"> {# Using your defined theme colors #}
+    <div class="mx-auto w-full max-w-screen-xl p-4 py-8 lg:py-10">
         <div class="md:flex md:justify-between">
             <div class="mb-6 md:mb-0">
-                {# Logo/Name - Use Background color for text #}
-                 {# CHANGE HERE #}
-                <a href="{% url 'LehmanCustomConstruction:home' %}" class="flex items-center text-background">
-                    {# <img src="{% static 'images/lehman-logo-light.png' %}" class="h-8 mr-3" alt="Lehman Logo" /> #}
-                    <span class="self-center text-2xl font-semibold whitespace-nowrap font-serif">Lehman Custom Construction</span> {# Serif for brand #}
+                <a href="{% url 'portfolio_app:home' %}" class="flex items-center text-brand-white">
+                    {# Option 1: Text Logo (using your logo font if defined in theme) #}
+                    <span class="self-center text-2xl font-semibold whitespace-nowrap font-heading">Tony the Coder</span>
+
+                    {# Option 2: Image Logo (Use your actual logo image) #}
+                    {# <img src="{% static 'images/12520076776419780272.jpeg' %}" class="h-10 mr-3 rounded" alt="Tony the Coder Logo" /> #}
+                    {# <span class="self-center text-2xl font-semibold whitespace-nowrap font-heading">Tony the Coder</span> #}
                 </a>
-                {# Description Text - Use lighter gray #}
                 <p class="mt-4 text-sm text-gray-400 max-w-xs">
-                    Designing for Life. Building to Last. Creating exceptional custom homes.
+                    Crafting web solutions with Python, Django, React, and a touch of AI. Let's build something great.
                 </p>
             </div>
             <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                 <div>
-                    {# Use slightly brighter text for headings #}
-                    <h2 class="mb-6 text-sm font-semibold text-background uppercase">Quick Links</h2>
-                     {# Link text - Lighter gray, Accent hover #}
+                    <h2 class="mb-6 text-sm font-semibold text-brand-white uppercase">Quick Links</h2>
                     <ul class="text-gray-400 font-medium">
                         <li class="mb-4">
-                             {# CHANGE HERE #}
-                            <a href="{% url 'LehmanCustomConstruction:about_us' %}" class="hover:underline hover:text-accent">About Us</a>
+                            <a href="{% url 'portfolio_app:about_us' %}" class="hover:underline hover:text-brand-gold">About Me</a>
                         </li>
                         <li class="mb-4">
-                             {# CHANGE HERE #}
-                             <a href="{% url 'LehmanCustomConstruction:portfolio_list' %}" class="hover:underline hover:text-accent">Our Work</a>
+                             <a href="{% url 'portfolio_app:portfolio_showcase_react' %}" class="hover:underline hover:text-brand-gold">Portfolio</a>
                         </li>
                         <li class="mb-4">
-                             {# This one was already correct! #}
-                            <a href="{% url 'LehmanCustomConstruction:blog_list' %}" class="hover:underline hover:text-accent">Blog</a>
+                            <a href="{% url 'portfolio_app:blog_list' %}" class="hover:underline hover:text-brand-gold">Blog</a>
                         </li>
                     </ul>
                 </div>
                 <div>
-                    <h2 class="mb-6 text-sm font-semibold text-background uppercase">Legal</h2>
+                    <h2 class="mb-6 text-sm font-semibold text-brand-white uppercase">Connect</h2>
                     <ul class="text-gray-400 font-medium">
                         <li class="mb-4">
-                            <a href="#" class="hover:underline hover:text-accent">Privacy Policy</a> {# Placeholder #}
+                            <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" class="hover:underline hover:text-brand-gold">GitHub</a> {# Replace with your GitHub URL #}
                         </li>
-                        <li>
-                            <a href="#" class="hover:underline hover:text-accent">Terms &amp; Conditions</a> {# Placeholder #}
+                        <li class="mb-4">
+                            <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer" class="hover:underline hover:text-brand-gold">LinkedIn</a> {# Replace with your LinkedIn URL #}
                         </li>
+                        {# Add other relevant professional links #}
                     </ul>
                 </div>
                 <div>
-                    <h2 class="mb-6 text-sm font-semibold text-background uppercase">Contact</h2>
+                    <h2 class="mb-6 text-sm font-semibold text-brand-white uppercase">Contact</h2>
                     <ul class="text-gray-400 font-medium">
                         <li class="mb-4">
-                             {# CHANGE HERE #}
-                            <a href="{% url 'LehmanCustomConstruction:contact_us' %}" class="hover:underline hover:text-accent">Contact Us</a>
+                            <a href="{% url 'portfolio_app:contact_us' %}" class="hover:underline hover:text-brand-gold">Contact Me</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-        {# Divider - Darker subtle border #}
         <hr class="my-6 border-gray-700 sm:mx-auto lg:my-8" />
         <div class="sm:flex sm:items-center sm:justify-between">
-            {# Copyright text - Lighter gray #}
             <span class="text-sm text-gray-400 sm:text-center">
-                 {# CHANGE HERE #}
-                © {% now "Y" %} <a href="{% url 'LehmanCustomConstruction:home' %}" class="hover:underline hover:text-accent">Lehman Custom Construction™</a>. All Rights Reserved.
+                © {% now "Y" %} <a href="{% url 'portfolio_app:home' %}" class="hover:underline hover:text-brand-gold">Tony the Coder™</a>. All Rights Reserved.
             </span>
             <div class="flex mt-4 space-x-5 sm:justify-center sm:mt-0">
-                {# Social Icons Placeholder - Lighter gray, Accent hover #}
-                {# <a href="#" class="text-gray-400 hover:text-accent"> SVG Here </a> #}
+                {# Replace # with your actual social media links and use appropriate SVG icons #}
+                <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-brand-gold">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.026 2.747-1.026.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.338 4.695-4.566 4.943.359.308.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" /></svg>
+                    <span class="sr-only">GitHub</span>
+                </a>
+                <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-brand-gold">
+                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clip-rule="evenodd" /></svg>
+                    <span class="sr-only">LinkedIn</span>
+                </a>
+                {# Add other social media icons as needed #}
             </div>
         </div>
     </div>
