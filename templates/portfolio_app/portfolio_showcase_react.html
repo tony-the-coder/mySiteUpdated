@@ -32,5 +32,6 @@
 {% block extra_js %}
     {{ block.super }}
     {# UPDATED to point to .tsx entry file #}
-    {% vite_asset 'src/main.tsx' %}
+     {% vite_react_refresh %}
+    {% vite_asset 'src/main.jsx' %}
 {% endblock extra_js %}

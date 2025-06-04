@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:css": "tailwindcss -i ./static/src/input.css -o ./static/css/output.css --minify",
-    "watch:css": "tailwindcss -i ./static/src/input.css -o ./static/css/output.css --watch",
+    "build:css": "tailwindcss -i assets/src/input.css -o ./static/css/output.css --minify",
+    "watch:css": "tailwindcss -i assets/src/input.css -o ./static/css/output.css --watch",
     "build:js": "esbuild ./static/js/main.js --bundle --outfile=./static/js/main.bundle.js --minify",
     "watch:js": "esbuild ./static/js/main.js --bundle --outfile=./static/js/main.bundle.js --sourcemap --watch",
     "build": "npm run build:css && npm run build:js",
