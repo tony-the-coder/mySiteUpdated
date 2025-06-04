@@ -1,6 +1,7 @@
 {% extends "base.html" %}
-{% load static i18n %}
 {% load django_vite %}
+{% load static i18n %}
+
 
 {% block title %}{{ page_title|default:"Contact Me" }} - Tony the Coder{% endblock title %}
 
@@ -41,11 +42,7 @@
         </div>
         {% endif %}
 
-        <div id="react-contact-form-root">
-            <div class="text-center py-10">
-                <p class="text-gray-500 animate-pulse">Loading contact form...</p>
-            </div>
-        </div>
+     <div id="react-contact-form-root"></div>
 
     </div>
 </div>
@@ -54,5 +51,6 @@
 {% block extra_js %}
     {{ block.super }}
     {# UPDATED to point to .tsx entry file #}
+    {% vite_react_refresh %}
     {% vite_asset 'src/main.tsx' %}
 {% endblock extra_js %}
