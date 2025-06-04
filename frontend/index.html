@@ -2,12 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    {/* If vite.svg is in your public directory, and base is '/vite/',
+        this might need to be './vite.svg' or have the base prefix if it's not resolving.
+        However, '/vite.svg' often works if it's in the public root. */}
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <title>Vite + React + TS</title>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+  <div id="root"></div>
+  {/* THIS IS THE KEY CHANGE YOU MADE: */}
+
+  <script type="module" src="./src/main.tsx"></script>
+</body>
 </html>
