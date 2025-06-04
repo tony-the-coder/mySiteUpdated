@@ -1,6 +1,7 @@
 {% load static %}
 {% load i18n %}
 {% load template_extras %}
+{% load django_vite %}
 
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"en" }}" class="scroll-smooth">
@@ -8,38 +9,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Lehman Custom Construction{% endblock title %}</title>
-
     <meta name="description" content="{% block meta_description %}Lehman Custom Construction specializes in luxury custom homes, bringing your unique vision to life with unparalleled craftsmanship and attention to detail.{% endblock meta_description %}">
-
-{#    <link rel="stylesheet" href="{% static 'css/output.css' %}">#}
-    <link rel="stylesheet" href="{% static 'src/output.css' %}">
 
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
+<link rel="stylesheet" href="{% static 'src/output.css' %}">
     {% if request.path|slice:":6" == "/admin" %}
     <link rel="stylesheet" href="{% static 'css/admin_override.css' %}">
-
     {% endif %}
 
     <style>
         [x-cloak] { display: none !important; }
-        /* Style to push content down ONLY if public navbar is visible */
-        .content-below-public-nav {
-            /* Adjust these pixel values to the exact height of your public navbar */
-            /* Consider default and scrolled states if navbar height changes */
-            padding-top: 112px; /* Example: Default state height */
-        }
-        /* You might need different padding for different screen sizes if navbar height changes responsively */
-        /* @media (min-width: 1024px) {
-            .content-below-public-nav {
-                 padding-top: 128px;
-            }
-        } */
+        .content-below-public-nav { padding-top: 112px; }
     </style>
 
     {% block extra_head %}
+        {% vite_hmr_client %}
         <script src="https://unpkg.com/htmx.org@latest/dist/htmx.min.js"></script>
     {% endblock extra_head %}
 </head>
@@ -50,36 +36,21 @@
     </a>
 
     <div id="page-container" class="flex flex-col min-h-screen">
-
-        {# Public Navbar - Conditionally hidden using Tailwind's 'hidden' class #}
-        {# The 'public_navbar_container' div itself will have display:none when is_staff_portal is true #}
         <div id="public_navbar_container" class="{% if is_staff_portal %}hidden{% endif %}">
-            {% block public_navbar_content %} {# Use a different block name to avoid conflicts #}
+            {% block public_navbar_content %}
                 {% include 'partials/_navbar.html' %}
             {% endblock public_navbar_content %}
         </div>
-
-        {# Main Content Wrapper - Conditionally apply top padding #}
-        {# This pushes content down ONLY IF the public navbar is visible (i.e., not in staff portal) #}
         <div id="content-wrap" class="flex-grow {% if not is_staff_portal %}content-below-public-nav{% else %}pt-0{% endif %}">
-            {% block hero_section %}
-            {% endblock hero_section %}
-
-            {% block breadcrumbs_block %}
-            {% endblock breadcrumbs_block %}
-
+            {% block hero_section %}{% endblock hero_section %}
+            {% block breadcrumbs_block %}{% endblock breadcrumbs_block %}
             <main id="main-content">
-                {% block content %}
-                {% endblock content %}
+                {% block content %}{% endblock content %}
             </main>
         </div>
-
         {% include 'partials/_footer.html' %}
     </div>
-
     {% include "partials/_lightbox.html" %}
-
-{#    <script src="{% static 'js/main.bundle.js' %}" defer></script>#}
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>

@@ -1,20 +1,15 @@
 {% extends "base.html" %}
 {% load django_vite %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>React Template</title>
-    {% vite_hmr_client %}
-</head>
-<body>
+
+{% block title %}React Minimal Test{% endblock title %}
+
+{% block content %}
     <h1>React Template</h1>
     <div id="root"></div>
+{% endblock content %}
 
+{% block extra_js %}
+    {{ block.super }}
     {% vite_react_refresh %}
-    {% vite_asset 'src/main.jsx' %}
-</body>
-</html>
-
-
+    {% vite_asset 'src/main.tsx' %}
+{% endblock extra_js %}
