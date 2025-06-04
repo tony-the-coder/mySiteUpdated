@@ -80,12 +80,12 @@
 
 @layer components {
   /* Staff Sidebar Navigation Link Style */
-  .staff-sidebar-link {
-    @apply flex items-center px-4 py-2 text-gray-700 rounded-md hover:bg-gray-200 cursor-pointer transition-colors duration-150;
-  }
-  .staff-sidebar-link-active { /* Optional active state for the current page */
-    @apply staff-sidebar-link bg-gray-200 text-brand-gold font-semibold;
-  }
+  /*.staff-sidebar-link {*/
+  /*  @apply flex items-center px-4 py-2 text-gray-700 rounded-md hover:bg-gray-200 cursor-pointer transition-colors duration-150;*/
+  /*}*/
+  /*.staff-sidebar-link-active { !* Optional active state for the current page *!*/
+  /*  @apply staff-sidebar-link bg-gray-200 text-brand-gold font-semibold;*/
+  /*}*/
 
   /* DIALOG BUTTONS */
   .button-confirm-delete {

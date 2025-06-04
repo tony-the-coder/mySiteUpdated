@@ -23,7 +23,7 @@ from django.utils.html import strip_tags
 from django.core.files.base import ContentFile
 from django.contrib.auth import update_session_auth_hash
 from django.conf import settings
-
+from django.shortcuts import render
 # --- Third Party Imports ---
 try:
     from PIL import Image as PillowImage
@@ -586,6 +586,9 @@ def staff_portfolio_delete(request, pk):
     }
     return render(request, 'portfolio_app/staff/portfolio_project_confirm_delete.html', context)
 
+
+def react_test_minimal_view(request):
+    return render(request, 'portfolio_app/react_test_minimal.html')
 # --- (Potentially Remove/Simplify) Staff views for Customer, internal Project, Expense, Budget ---
 # These views below were for the construction business logic.
 # Review if you need similar functionality for managing freelance clients/projects.

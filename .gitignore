@@ -1,4 +1,4 @@
-/node_modules/
+
 # Default ignored files
 /shelf/
 /workspace.xml
@@ -8,6 +8,7 @@
 /dataSources/
 /dataSources.local.xml
 /db.sqlite3
-/frontend/eslint.config.js
+
 /frontend/src/assets/react.svg
 /frontend/public/vite.svg
+/frontend/frontend/

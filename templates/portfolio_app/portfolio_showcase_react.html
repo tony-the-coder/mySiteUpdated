@@ -1,0 +1,19 @@
+{# portfolio_app/templates/portfolio_app/portfolio_showcase_react.html #}
+{% extends "base.html" %}
+{% load django_vite %}
+{% load static %}
+
+{% block title %}DEBUGGING HMR CLIENT{% endblock title %}
+
+{% block content %}
+    <p>Debugging Vite HMR Client URL. Check page source.</p>
+    <div id="root">
+        </div>
+{% endblock content %}
+
+{% block extra_js %}
+    {# {{ block.super }} #} {# Temporarily comment out super to isolate vite tags #}
+    {% comment %} Output the HMR client tag directly for inspection {% endcomment %}
+    {% vite_hmr_client %}
+    {% vite_asset 'src/main.tsx' %}
+    {% endblock extra_js %}

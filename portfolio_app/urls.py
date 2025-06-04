@@ -36,6 +36,7 @@ urlpatterns = [
     path('staff/coding-projects/<int:pk>/delete/', views.staff_portfolio_delete, name='staff_portfolio_delete'),
     path('staff/coding-projects/<int:pk>/manage-images/', views.staff_manage_portfolio_images,
          name='staff_manage_portfolio_images'),
+    path('react-minimal-test/', views.react_test_minimal_view, name='react_test_minimal'),
 
     # --- Commented out URLs for features you might not need for a personal portfolio ---
     # --- Review and remove these if you've removed the corresponding models and views ---

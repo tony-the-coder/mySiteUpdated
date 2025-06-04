@@ -20,6 +20,7 @@
 
     {% if request.path|slice:":6" == "/admin" %}
     <link rel="stylesheet" href="{% static 'css/admin_override.css' %}">
+
     {% endif %}
 
     <style>
@@ -78,7 +79,8 @@
 
     {% include "partials/_lightbox.html" %}
 
-    <script src="{% static 'js/main.bundle.js' %}" defer></script>
+{#    <script src="{% static 'js/main.bundle.js' %}" defer></script>#}
+
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
       if (typeof AOS !== 'undefined') {
@@ -92,7 +94,6 @@
         console.warn('AOS library not loaded, animations will not initialize.');
       }
     </script>
-
     {% block extra_js %}{% endblock %}
 </body>
 </html>
