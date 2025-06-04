@@ -1,17 +1,32 @@
-// frontend/vite.config.ts
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import path from 'path';
-import { fileURLToPath } from 'url';
+// frontend/vite.config.js
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import path from 'path'
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-export default defineConfig(({ command }) => ({
+export default defineConfig({
   plugins: [
-    react(),
+    react()
   ],
-  base: command === 'build' ? '/static/' : '/vite/',
+  // root: process.cwd(), // Default is the directory of the config file, which is 'frontend/'
+  base: '/static/', // This MUST match Django's STATIC_URL
+
+  server: {
+    // The host Vite binds to. 'localhost' is usually fine.
+    host: 'localhost',
+    port: 5173, // Default Vite port
+    strictPort: true, // Ensures Vite uses this port or fails
+    origin: 'http://localhost:5173', // Helps client construct absolute URLs
+
+    hmr: {
+      // Explicitly set the host for HMR WebSocket connections.
+      // This should match the host your browser uses to access the Vite dev server.
+      host: 'localhost',
+      port: 5173, // Ensure this matches the server port
+      // protocol: 'ws', // Default is 'ws' or 'wss' based on server protocol
+      // clientPort: 5173, // Default is server.port, explicitly setting can sometimes help
+    }
+  },
+
   build: {
     outDir: path.resolve(__dirname, '../static/dist'),
     assetsDir: '',
@@ -21,22 +36,11 @@ export default defineConfig(({ command }) => ({
         main: path.resolve(__dirname, 'src/main.tsx'),
       },
     },
-    emptyOutDir: true,
   },
-  server: {
-    port: 5173,
-    strictPort: true,
-    cors: true,
-    origin: 'http://localhost:5173',
-    hmr: {
-      protocol: 'ws',
-      host: 'localhost',
-      port: 5173,
-    }
-  },
+
   resolve: {
     alias: {
       // '@': path.resolve(__dirname, 'src'),
     }
   }
-}));
+})

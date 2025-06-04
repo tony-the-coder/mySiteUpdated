@@ -1,27 +1,27 @@
 {
   "compilerOptions": {
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
+    "target": "ESNext", // Transpile to modern JavaScript
+    "useDefineForClassFields": true, // Standard for class fields
+    "lib": ["ESNext", "DOM", "DOM.Iterable"], // Include necessary libraries for web development
+    "module": "ESNext", // Use modern module system
+    "skipLibCheck": true, // Skip type checking of declaration files (node_modules)
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": true,
-    "moduleDetection": "force",
-    "noEmit": true,
-    "jsx": "react-jsx",
+    "moduleResolution": "bundler", // Align with how Vite resolves modules
+    "allowImportingTsExtensions": true, // Allows importing .ts files (though typically not needed with bundlers)
+    "resolveJsonModule": true, // Allows importing JSON files
+    "isolatedModules": true, // Ensures files can be transpiled independently
+    "noEmit": true, // TypeScript doesn't emit output; Vite/esbuild handles it
+    "jsx": "react-jsx", // Use the new JSX transform (React 17+)
 
     /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "strict": true, // Enable all strict type-checking options
+    "noUnusedLocals": true, // Report errors on unused local variables
+    "noUnusedParameters": true, // Report errors on unused parameters
+    "noFallthroughCasesInSwitch": true, // Report errors for fallthrough cases in switch statement
+    "allowSyntheticDefaultImports": true, // Allows default imports from modules with no default export
+    "forceConsistentCasingInFileNames": true // Ensure that casing is correct in imports
   },
-  "include": ["src"]
+  "include": ["src"], // IMPORTANT: This tells TypeScript to only process files in your 'src' directory for this config
+  "exclude": ["node_modules", "dist", "build"] // Explicitly exclude these
 }

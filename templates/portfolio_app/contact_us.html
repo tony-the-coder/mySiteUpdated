@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static i18n %}
-{% load django_vite %} {# Make sure django_vite is loaded #}
+{% load django_vite %}
 
 {% block title %}{{ page_title|default:"Contact Me" }} - Tony the Coder{% endblock title %}
 
@@ -8,7 +8,6 @@
     {{ meta_description|default:"Get in touch with Tony the Coder to discuss your web development projects, AI ideas, or collaboration opportunities." }}
 {% endblock meta_description %}
 
-{# Optional: Add a simple hero/header for the contact page if not handled by React #}
 {% block hero_section %}
 <section aria-labelledby="contact-hero-title" class="relative bg-gradient-to-br from-gray-50 via-stone-100 to-blue-50 text-brand-charcoal border-b border-gray-200">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20 md:py-28 lg:py-32 pt-32 md:pt-36 lg:pt-44">
@@ -24,7 +23,6 @@
 
 {% block breadcrumbs_block %}
     {% if breadcrumbs %}
-         {# Breadcrumbs generated in views.py using 'portfolio_app' namespace #}
         {% include 'partials/_breadcrumbs.html' with breadcrumbs=breadcrumbs %}
     {% endif %}
 {% endblock breadcrumbs_block %}
@@ -33,7 +31,6 @@
 <div class="bg-white py-12 sm:py-16 lg:py-20">
     <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {# Any messages from Django (e.g., if you had a non-JS fallback, though less likely with React) #}
         {% if messages %}
         <div class="mb-6">
             {% for message in messages %}
@@ -44,18 +41,11 @@
         </div>
         {% endif %}
 
-        {# This is where your React contact form will be injected. #}
-        {# The ID 'react-contact-form-root' should match what your React app uses to mount. #}
         <div id="react-contact-form-root">
-            {# Optional: Add a loading message/spinner that React will replace #}
             <div class="text-center py-10">
                 <p class="text-gray-500 animate-pulse">Loading contact form...</p>
             </div>
         </div>
-
-        {# The old Django form logic is removed from here. #}
-        {# Your React component will handle the form structure, inputs, and submission. #}
-        {# The actual <form> tag and its inputs will be part of your React component's JSX. #}
 
     </div>
 </div>
@@ -63,7 +53,6 @@
 
 {% block extra_js %}
     {{ block.super }}
-    {# This ensures the JavaScript bundle for your React app is loaded on this page. #}
-    {# It should point to your Vite project's main entry file in `frontend/src/`. #}
-    {% vite_asset 'src/main.jsx' %}
+    {# UPDATED to point to .tsx entry file #}
+    {% vite_asset 'src/main.tsx' %}
 {% endblock extra_js %}

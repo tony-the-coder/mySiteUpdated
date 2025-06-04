@@ -1,19 +1,36 @@
 {# portfolio_app/templates/portfolio_app/portfolio_showcase_react.html #}
 {% extends "base.html" %}
 {% load django_vite %}
-{% load static %}
+{% load static %} {# Keep if you use other static assets directly in this template #}
 
-{% block title %}DEBUGGING HMR CLIENT{% endblock title %}
+{% block title %}{{ page_title|default:"My Coding Portfolio" }} - Tony the Coder{% endblock title %}
+
+{% block meta_description %}
+    {{ meta_description|default:"Showcase of coding projects by Tony the Coder, featuring Python, Django, React, and AI." }}
+{% endblock meta_description %}
+
+{% block hero_section %}
+    {# This block can be left empty if React handles the entire portfolio page content #}
+{% endblock hero_section %}
+
+{% block breadcrumbs_block %}
+    {% comment %}
+    {% if breadcrumbs %}
+        {% include 'partials/_breadcrumbs.html' with breadcrumbs=breadcrumbs %}
+    {% endif %}
+    {% endcomment %}
+{% endblock breadcrumbs_block %}
 
 {% block content %}
-    <p>Debugging Vite HMR Client URL. Check page source.</p>
-    <div id="root">
-        </div>
+<div id="react-portfolio-root">
+    <div class="flex justify-center items-center min-h-[60vh]">
+        <p class="text-xl text-gray-500 animate-pulse">Loading Portfolio Projects...</p>
+    </div>
+</div>
 {% endblock content %}
 
 {% block extra_js %}
-    {# {{ block.super }} #} {# Temporarily comment out super to isolate vite tags #}
-    {% comment %} Output the HMR client tag directly for inspection {% endcomment %}
-    {% vite_hmr_client %}
+    {{ block.super }}
+    {# UPDATED to point to .tsx entry file #}
     {% vite_asset 'src/main.tsx' %}
-    {% endblock extra_js %}
+{% endblock extra_js %}
