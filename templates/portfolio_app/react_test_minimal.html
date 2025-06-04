@@ -1,14 +1,33 @@
 {% load django_vite %}
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minimal React Test via Django</title>
+    <title>React Minimal Test</title>
+
+    {# This is crucial for Vite's HMR and dev server integration #}
     {% vite_hmr_client %}
+
+    <link rel="stylesheet" href="{% static 'src/output.css' %}"> {# Your Tailwind CSS #}
+    {# Add any other global CSS if needed #}
 </head>
 <body>
-    <div id="root"></div>
+    <h1>Minimal React Test Page</h1>
+    <p>If Vite and React are working, you should see the React app below.</p>
+
+    {# This is where your React app will mount. ID must match your main.tsx #}
+    <div id="react-app-minimal-root">
+        <p>Loading React app...</p>
+    </div>
+
+    {# This loads your main React application bundle #}
+    {# Ensure 'src/main.tsx' is your correct entry point #}
     {% vite_asset 'src/main.tsx' %}
+
+    {# Optional: Add other global JS if needed #}
+    {# <script src="{% static 'js/main.bundle.js' %}" defer></script> #}
 </body>
 </html>
