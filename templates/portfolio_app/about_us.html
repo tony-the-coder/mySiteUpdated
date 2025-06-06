@@ -1,33 +1,23 @@
 {% extends "base.html" %}
 {% load static %}
+{% load django_vite %} {# Make sure django_vite is loaded for React integration #}
 
 {% block title %}About Me - Tony the Coder{% endblock %}
 
 {% block meta_description %}Learn more about Tony the Coder, a passionate Full-Stack Developer specializing in Python, Django, React, and AI-driven solutions. Discover my journey, skills, and development philosophy.{% endblock meta_description %}
 
-{# Hero Section for About Me Page #}
+{# Hero Section for About Me Page (Now powered by React Lamp Effect) #}
 {% block hero_section %}
-<section class="page-header-bg" style="background-image: url('{% static 'portfolio_app/images/about_hero_coder.jpg' %}');">
-    {# REMEMBER: Create a 'portfolio_app/static/portfolio_app/images/' directory #}
-    {# and add an image like 'about_hero_coder.jpg' (e.g., abstract tech, workspace, or a subtle pattern) #}
-    <div class="absolute inset-0 bg-brand-charcoal opacity-60 z-0"></div> {# Darkening overlay for text readability #}
-    <div class="relative z-10 p-6 text-center">
-        <h1 class="page-title animate-fade-in-down">
-            About Tony the Coder
-        </h1>
+    {# This div will be the mount point for your React LampDemo component #}
+    {# The min-h-screen class is crucial for the Lamp effect to have enough vertical space #}
+    <div id="about-page-lamp-hero-root" class="min-h-screen flex items-center justify-center bg-slate-950 text-white">
+        Loading Awesome Lamp Effect...
     </div>
-</section>
 {% endblock hero_section %}
 
 {% block breadcrumbs_block %}
     {% if breadcrumbs %}
         {# Ensure your views.py passes the correct breadcrumbs for this page #}
-        {# Example breadcrumbs for about_us view:
-           breadcrumbs = [
-               {'name': 'Home', 'url': reverse('portfolio_app:home')},
-               {'name': 'About Me', 'is_active': True},
-           ]
-        #}
         {% include 'partials/_breadcrumbs.html' with breadcrumbs=breadcrumbs %}
     {% endif %}
 {% endblock breadcrumbs_block %}
@@ -117,6 +107,77 @@
             </div>
         </section>
 
+        {# My Certifications & Learning Section (Badges) #}
+        <section class="py-16 lg:py-24 bg-brand-gray-light" data-aos="fade-up" data-aos-delay="100" data-aos-duration="700">
+            <div class="container mx-auto px-6 lg:px-8 max-w-4xl text-center">
+                <h3 class="section-heading mt-0 mb-8">My Certifications & Learning</h3>
+                <div class="flex flex-wrap justify-center items-center gap-6">
+                    {# Your existing Credly Badges #}
+                    <div class="badge-item">
+                        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="008cd379-7820-47f8-853b-724dd3c63ee8" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+                    </div>
+                    {# Example other badges - replace with your actual badge IDs #}
+                    <div class="badge-item">
+                        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="0ef06ae8-9dd7-4f2c-a244-8df61395be25" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+                    </div>
+                    <div class="badge-item">
+                        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="0f977c37-b4fa-4c90-893e-aacd91a77cb6" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+                    </div>
+                    <div class="badge-item">
+                        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="1ce32ce6-f265-4352-b2e6-5d66f9fd8102" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+                    </div>
+                    <div class="badge-item">
+                        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="24e8e432-a98d-4d48-929b-bf6b60d40b8f" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+                    </div>
+                    <div class="badge-item">
+                        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="47a91900-7f47-46a4-ba3a-6c9a19fb8d00" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+                    </div>
+                    <div class="badge-item">
+                        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="5374d3d3-d5ee-454c-a4ae-ee1bd723b28c" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+                    </div>
+                    <div class="badge-item">
+                        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="5bdbdac6-23bb-4eaf-81b7-d93a20c52202" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+                    </div>
+                    <div class="badge-item">
+                        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="5c7a1daf-e10b-49cf-9a40-fd17718282cb" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+                    </div>
+                    <div class="badge-item">
+                        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="5f6a6d9f-4a74-40f8-9885-703514204efa" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+                    </div>
+                    <div class="badge-item">
+                        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="6ae23e12-e766-4e6f-afb4-dc2cc0b9846f" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+                    </div>
+                    <div class="badge-item">
+                        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="6ba0d4d4-f0fa-4e02-9c09-987ebfe40b4f" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+                    </div>
+                    <div class="badge-item">
+                        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="7aaead64-d276-4f18-8eec-d0acc5ebd88e" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+                    </div>
+                    <div class="badge-item">
+                        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="82808286-bdd0-4c5c-9809-9068903893c0" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+                    </div>
+                    <div class="badge-item">
+                        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="8a642a4e-7a14-47df-9cb9-b3a0df2ff0d1" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+                    </div>
+                    <div class="badge-item">
+                        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="8f31cc0f-08fe-44ce-b358-63cf41d76286" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+                    </div>
+                    <div class="badge-item">
+                        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="cb8e273f-0f51-4ab0-9c46-6b2c46b6e733" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+                    </div>
+                    <div class="badge-item">
+                        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="db2a75e0-0b27-4c0c-bf26-e8ca59d1cf47" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+                    </div>
+                    <div class="badge-item">
+                        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="e6ac93e1-e7d9-4f9b-8b48-d0c42ceccd59" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+                    </div>
+                    <div class="badge-item">
+                        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="f7dbe844-8930-4ce6-9476-29c4ab339860" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         {# Call to Action Section #}
         <section class="text-center pt-10" data-aos="fade-up">
             <h3 class="font-heading text-2xl md:text-3xl text-brand-charcoal font-medium mb-6">
@@ -132,4 +193,11 @@
 
     </div>
 </div>
-{% endblock %}
+{% endblock content %}
+
+{# Include your React entry point for this page here #}
+{% block extra_js %}
+    {{ block.super }} {# Important to keep any parent JS (like Alpine.js or Flowbite) #}
+    {% vite_react_refresh %} {# For hot module reloading in development #}
+    {% vite_asset 'aboutPageEntry.tsx' %} {# This loads the specific JS bundle for this page #}
+{% endblock extra_js %}

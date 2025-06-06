@@ -23,6 +23,10 @@
     "concurrently": "^8.2.2",
     "esbuild": "^0.25.4",
     "tailwindcss": "^4.1.6"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "motion": "^12.16.0",
+    "tailwind-merge": "^3.3.0"
   }
-
 }

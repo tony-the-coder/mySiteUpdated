@@ -1,15 +1,27 @@
 {% extends "base.html" %}
 {% load django_vite %}
 
-{% block title %}React Minimal Test{% endblock title %}
+{% block title %}Portfolio - Tony the Coder{% endblock title %}
+
+{% block hero_section %}
+    {% include 'partials/_aurora_hero.html' with hero_title="My Work" hero_subtitle="A selection of projects that showcase my skills in web development, from backend logic to frontend design." %}
+{% endblock hero_section %}
+
+{% block breadcrumbs_block %}
+    {% if breadcrumbs %}
+        {% include 'partials/_breadcrumbs.html' with breadcrumbs=breadcrumbs %}
+    {% endif %}
+{% endblock breadcrumbs_block %}
 
 {% block content %}
-    <h1>React Template</h1>
-    <div id="root"></div>
+<div id="react-portfolio-showcase-root" class="py-12">
+    {# Your React component will render here #}
+</div>
 {% endblock content %}
+
 
 {% block extra_js %}
     {{ block.super }}
     {% vite_react_refresh %}
-    {% vite_asset 'src/main.tsx' %}
+    {% vite_asset 'main.tsx' %}
 {% endblock extra_js %}
