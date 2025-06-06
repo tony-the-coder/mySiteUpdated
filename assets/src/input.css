@@ -1,206 +1,44 @@
-/* static/src/input.css */
+@import "tailwindcss";
 
-@import "../../node_modules/tailwindcss/dist/lib.d.mts"; /* This MUST be at the top */
-
+/* Define your custom theme variables using @theme directive for v4 */
 @theme {
-  /* Font Families */
-  --font-heading: "EB Garamond", Georgia, Times New Roman, serif;
-  --font-body: "Roboto", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-
-  /* Brand Colors */
-  --color-brand-white: #FFFFFF;
+  --color-brand-white: #ffffff;
   --color-brand-charcoal: #2B2B2B;
   --color-brand-gold: #B08D57;
-  --color-brand-gold-semi-transparent: rgba(176, 141, 87, 0.8);
-  --color-brand-gold-light: #D4C0A1;
-  --color-brand-red-border: #A0522D;
+  --color-brand-gold-light: #C8A476; /* Assuming this is a lighter variant */
 
-  /* Grays */
-  --color-brand-gray-light: #F5F5F5;
-  --color-brand-gray-medium: #E0E0E0;
-  --color-brand-gray-text: #555555;
+  --font-heading: 'Georgia', serif; /* Replace with your actual heading font */
+  --font-body: 'Arial', sans-serif; /* Replace with your actual body font */
 
-  /* Additional colors */
-  --color-brand-charcoal-darker: #1A1A1A;
-  --color-brand-gold-richer: #a37d4a;
-
-  /* Standard Colors (These will automatically generate utilities like bg-red-600, text-red-500 etc.) */
-  --color-red-500: #ef4444;
-  --color-red-600: #dc2626;
-  --color-red-700: #b91c1c; /* For hover state consistency */
-
-  --color-gray-50: #f9fafb;
-  --color-gray-200: #e5e7eb; /* For hover state for sidebar */
-  --color-gray-300: #d1d5db; /* For border */
-  --color-gray-700: #374151; /* For text */
-
-  --color-indigo-500: #6366f1; /* For focus rings */
-  --color-white: #ffffff; /* Explicit white for text */
+  /* You can also define other theme variables here, e.g., spacing, breakpoints */
+  /* --breakpoint-sm: 40rem; */
+  /* --breakpoint-md: 48rem; */
+  /* ... */
 }
 
-@layer base {
-  body {
-    font-family: var(--font-body);
-    color: var(--color-brand-charcoal);
-    background-color: var(--color-brand-white);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading);
-    color: var(--color-brand-charcoal);
-  }
-
-  a {
-    color: var(--color-brand-gold);
-    text-decoration: none;
-    @apply cursor-pointer; /* Default cursor for links */
-  }
-  a:hover {
-    color: var(--color-brand-gold-light);
-  }
-
-  /* Explicit base styling for buttons to ensure cursor and reset appearance */
-  button,
-  [type='button'],
-  [type='reset'],
-  [type='submit'] {
-    -webkit-appearance: button; /* Helps with consistent appearance across browsers */
-    background-color: transparent; /* Start with a transparent background */
-    background-image: none; /* Remove any default gradient */
-    cursor: pointer; /* Ensure buttons have a pointer cursor */
-    padding: 0; /* Reset default browser padding */
-    border-width: 0; /* Reset default browser border if not explicitly set by Tailwind */
-    color: inherit; /* Inherit text color by default */
-    font: inherit; /* Inherit font by default */
-    text-align: inherit; /* Inherit text alignment */
-  }
-}
-
-@layer components {
-  /* Staff Sidebar Navigation Link Style */
-  /*.staff-sidebar-link {*/
-  /*  @apply flex items-center px-4 py-2 text-gray-700 rounded-md hover:bg-gray-200 cursor-pointer transition-colors duration-150;*/
-  /*}*/
-  /*.staff-sidebar-link-active { !* Optional active state for the current page *!*/
-  /*  @apply staff-sidebar-link bg-gray-200 text-brand-gold font-semibold;*/
-  /*}*/
-
-  /* DIALOG BUTTONS */
-  .button-confirm-delete {
-    @apply px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 cursor-pointer;
-  }
-  .button-cancel-dialog {
-    @apply px-6 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer;
-  }
-
-  /* --- NAVBAR --- */
-  .nav-link {
+/* Your custom CSS classes and directives */
+.nav-link {
     @apply font-body text-brand-charcoal hover:text-brand-gold px-3 py-2 rounded-md text-lg font-medium uppercase tracking-wider transition-colors duration-200;
-  }
-  .nav-link-active {
+}
+
+.nav-link-active {
     @apply font-body text-brand-gold px-3 py-2 rounded-md text-lg font-medium uppercase tracking-wider;
-  }
-  .nav-link-button {
-    @apply inline-block font-body bg-brand-gold text-brand-charcoal hover:bg-brand-gold-semi-transparent px-4 py-2 rounded-md text-sm font-semibold uppercase tracking-wider border-2 border-transparent hover:border-brand-red-border transition-colors duration-300;
-  }
-  .nav-link-button-secondary {
-    @apply inline-block font-body bg-transparent text-brand-charcoal hover:bg-brand-gray-light px-4 py-2 rounded-md text-sm font-semibold uppercase tracking-wider border-2 border-brand-gold hover:border-brand-red-border transition-colors duration-300;
-  }
-  .mobile-nav-link {
-    @apply block font-body text-brand-charcoal hover:bg-brand-gray-light hover:text-brand-gold px-4 py-2 text-lg font-medium transition-colors duration-200;
-  }
-  .mobile-nav-link-active {
-     @apply block font-body text-brand-gold bg-brand-gray-light px-4 py-2 text-lg font-medium;
-  }
-  .mobile-nav-link-button {
-    @apply block w-full text-center font-body bg-brand-gold text-brand-charcoal hover:bg-brand-gold-semi-transparent px-4 py-2 rounded-md text-sm font-semibold uppercase tracking-wider transition-colors duration-300;
-  }
-  .mobile-nav-link-button-secondary {
-    @apply block w-full text-center font-body bg-transparent text-brand-charcoal hover:bg-brand-gray-light px-4 py-2 rounded-md text-sm font-semibold uppercase tracking-wider border-2 border-brand-gold transition-colors duration-300;
-  }
-
-  /* --- FOOTER --- */
-  .footer-link { @apply text-brand-gray-medium hover:text-brand-gold transition-colors duration-200 text-sm; }
-  .social-link { @apply text-brand-gray-medium hover:text-brand-gold transition-colors duration-200; }
-
-  /* --- GENERAL & PAGE SECTIONS --- */
-  .page-header-bg { @apply h-[40vh] md:h-[50vh] bg-cover bg-center flex items-center justify-center text-center relative; }
-  .page-title { @apply text-brand-white font-heading text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight; }
-  .section-heading { @apply font-heading text-brand-charcoal text-3xl md:text-4xl font-medium mb-6; }
-  .section-subheading { @apply font-body text-brand-gray-text text-lg leading-relaxed; }
-
-  .cta-gradient-background {
-    background-image: linear-gradient(135deg, var(--color-brand-gold) 0%, var(--color-brand-gold-richer) 100%);
-  }
-
-  /* CTA Buttons */
-  .cta-button-primary {
-    @apply inline-block font-body text-base uppercase tracking-wider font-semibold px-8 py-3
-           bg-brand-gold text-brand-charcoal border-2 border-brand-red-border
-           rounded-md transform transition-all duration-200 ease-in-out
-           hover:bg-brand-gold-semi-transparent hover:border-brand-gold hover:scale-105 hover:shadow-md
-           active:scale-95 active:shadow-sm cursor-pointer;
-  }
-  .cta-button-secondary {
-    @apply inline-block font-body text-base uppercase tracking-wider font-semibold px-8 py-3
-           bg-transparent text-brand-gold border-2 border-brand-gold
-           rounded-md transform transition-all duration-200 ease-in-out
-           hover:bg-brand-gold hover:text-brand-charcoal hover:scale-105 hover:shadow-md
-           active:scale-95 active:shadow-sm cursor-pointer;
-  }
-  .cta-button-primary-inverted {
-    @apply inline-block font-body text-base uppercase tracking-wider font-semibold px-10 py-4
-           bg-brand-white text-brand-charcoal border-2 border-brand-charcoal
-           rounded-md transform transition-all duration-200 ease-in-out
-           hover:bg-brand-charcoal hover:text-brand-white hover:border-brand-white hover:scale-105 hover:shadow-lg
-           active:scale-95 active:bg-brand-charcoal-darker active:border-brand-charcoal-darker active:shadow-sm cursor-pointer;
-  }
-
-  /* --- OTHER COMPONENTS --- */
-  .link-styled { @apply font-body text-brand-gold hover:text-brand-gold-light font-semibold text-lg; }
-  .arrow-accent { @apply transition-transform duration-300 inline-block group-hover:translate-x-1; }
-  .service-card { @apply p-6 text-center bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300; }
-  .card-heading { @apply font-heading text-2xl font-medium text-brand-charcoal mb-3; }
-  .card-text { @apply font-body text-gray-600 leading-relaxed text-sm; }
-
-  /* --- CONTENT PROSE --- */
-  .content-prose { font-family: var(--font-body); color: var(--color-brand-gray-text); }
-  .content-prose h1, .content-prose h2, .content-prose h3, .content-prose h4, .content-prose h5, .content-prose h6 { font-family: var(--font-heading); color: var(--color-brand-charcoal); @apply mt-6 mb-3 font-semibold; }
-  .content-prose p { @apply mb-4 leading-relaxed; }
-  .content-prose a { color: var(--color-brand-gold); @apply hover:underline; }
-  .content-prose strong { color: var(--color-brand-charcoal); @apply font-semibold; }
-  .content-prose ul, .content-prose ol { @apply my-4 pl-6; }
-  .content-prose ul { @apply list-disc; }
-  .content-prose ol { @apply list-decimal; }
-  .content-prose li { @apply mb-1; }
-  .content-prose blockquote { border-left-color: var(--color-brand-gold); color: var(--color-brand-gray-text); @apply pl-4 italic my-4 border-l-4; }
-  .content-prose code { color: var(--color-brand-red-border); @apply bg-brand-gray-light px-1 py-0.5 rounded text-sm; }
-  .content-prose pre { @apply bg-brand-gray-light p-4 rounded-md overflow-x-auto my-4 text-sm; }
-  .content-prose pre code { @apply bg-transparent p-0 rounded-none; }
-
-  /* --- FORM STYLING --- */
-  .form-label { @apply block font-body text-sm font-medium text-brand-charcoal mb-1; }
-  .form-field-error .form-textarea-v4,
-  .form-field-error input[type="text"],
-  .form-field-error textarea {
-      @apply !border-red-500;
-  }
-  .form-error { @apply text-red-600 text-xs mt-1; }
-
-} /* End of @layer components */
-
-/* Keyframes & Animation classes */
-@keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
 }
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+
+.nav-link-button {
+    @apply bg-brand-gold text-brand-charcoal px-6 py-2 rounded-full font-bold uppercase transition-colors duration-200 hover:bg-brand-gold-light;
 }
-.animate-fade-in-down { animation: fadeInDown 0.8s ease-out forwards; opacity: 0; }
-.animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; opacity: 0; }
-.animation-delay-300 { animation-delay: 0.3s; }
-.animation-delay-600 { animation-delay: 0.6s; }
+
+.mobile-nav-link {
+    @apply block px-3 py-2 rounded-md text-base font-medium uppercase transition-colors duration-200 hover:bg-brand-gold hover:text-brand-charcoal;
+}
+
+.mobile-nav-link-active {
+    @apply text-brand-gold;
+}
+
+.mobile-nav-link-button {
+    @apply block text-center px-4 py-2 rounded-full font-bold uppercase transition-colors duration-200;
+}
+
+/* Add any other custom CSS you had in your original input.css here */
