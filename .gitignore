@@ -1,4 +1,4 @@
-
+node
 # Default ignored files
 /shelf/
 /workspace.xml
@@ -12,3 +12,5 @@
 /frontend/src/assets/react.svg
 /frontend/public/vite.svg
 /frontend/frontend/
+/node_modules/
+/node_modules/
